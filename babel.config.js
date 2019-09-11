@@ -10,6 +10,11 @@ module.exports = api => {
 				{
 					modules: isTest ? "commonjs" : false,
 					loose: true,
+					useBuiltIns: "usage",
+					corejs: 3,
+					exclude: [
+						"es.regexp.to-string" // not used for RegExp
+					]
 				}
 			]
 		]

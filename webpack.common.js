@@ -4,7 +4,7 @@ const path = require('path');
 
 module.exports = {
 	entry: {
-		'index': './src/index.js',
+		'floating-focus': './src/floating-focus.js',
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist'),
@@ -22,6 +22,14 @@ module.exports = {
 				test: /\.js$/,
 				exclude: /node_modules|dist/,
 				loader: 'babel-loader'
+			},
+			{
+				test: /\.(css|scss)$/,
+				use: [
+					'css-loader',
+					'postcss-loader',
+					'sass-loader'
+				]
 			},
 		]
 	}

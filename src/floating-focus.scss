@@ -1,0 +1,56 @@
+.floating-focus {
+	$border-size: 2px;
+
+	border: $border-size solid currentColor;
+	padding: 4px;
+	border-radius: 4px;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	opacity: 0;
+
+	will-change: top, left;
+	box-sizing: content-box;
+	pointer-events: none;
+	overflow: hidden;
+	z-index: 999;
+
+	&.moving {
+		transition-property: opacity, border-radius, left, top, width, height;
+		transition-duration: .2s, .1s, .1s, .1s, .1s, .1s, .1s;
+		transition-timing-function: linear, ease-in-out, ease-in-out, ease-in-out, ease-in-out;
+	}
+
+	&.enabled.visible {
+		opacity: 1;
+	}
+
+	&::after {
+		content: '';
+		background: currentColor;
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		opacity: 0;
+
+		transition: opacity .2s linear;
+	}
+
+	&.helper::after {
+		transition-duration: .1s;
+		opacity: .3;
+	}
+}
+
+.floating-focused {
+	&:focus {
+		outline-width: 0;
+	}
+
+	&::-moz-focus-inner {
+		border: 0;
+	}
+}
