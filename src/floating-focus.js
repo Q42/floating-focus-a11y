@@ -2,11 +2,13 @@ import './floating-focus.scss';
 
 export default class FloatingFocus {
 	constructor() {
-		this.bindToKeydownEvents();
-		this.bindToMouseDownEvents();
-		this.bindToFocusEvents();
-		this.bindToBlurEvents();
-		this.bindToScrollResizeEvents();
+		this.bindEventListenersToInstance();
+
+		this.addKeydownEvents();
+		this.addMouseDownEvents();
+		this.addFocusEvents();
+		this.addBlurEvents();
+		this.addScrollResizeEvents();
 	}
 
 	constructFloatingElement() {
@@ -17,23 +19,32 @@ export default class FloatingFocus {
 		return element; // Floater pun intended.
 	}
 
-	bindToKeydownEvents() {
+	bindEventListenersToInstance() {
+		this.handleKeyDown = this.handleKeyDown.bind(this);
+		this.handleMouseDown = this.handleMouseDown.bind(this);
+		this.handleFocus = this.handleFocus.bind(this);
+		this.handleBlur = this.handleBlur.bind(this);
+		this.handleScrollResize = this.handleScrollResize.bind(this);
+		this.handleScrollResize = this.handleScrollResize.bind(this);
+	}
+
+	addKeydownEvents() {
 		document.addEventListener('keydown', this.handleKeyDown, false);
 	}
 
-	bindToMouseDownEvents() {
+	addMouseDownEvents() {
 		document.addEventListener('mousedown', this.handleMouseDown, false);
 	}
 
-	bindToFocusEvents() {
+	addFocusEvents() {
 		document.addEventListener('focus', this.handleFocus, true);
 	}
 
-	bindToBlurEvents() {
+	addBlurEvents() {
 		document.addEventListener('blur', this.handleBlur, true);
 	}
 
-	bindToScrollResizeEvents() {
+	addScrollResizeEvents() {
 		document.addEventListener('scroll', this.handleScrollResize, false);
 		window.addEventListener('resize', this.handleScrollResize, false);
 	}
