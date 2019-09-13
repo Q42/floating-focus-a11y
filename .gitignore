@@ -1,0 +1,9 @@
+# IntelliJ folders
+.idea_modules/
+.idea/
+
+# Node modules
+node_modules/
+
+# Jest code coverage
+coverage/
