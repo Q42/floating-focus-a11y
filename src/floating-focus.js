@@ -1,7 +1,9 @@
 import './floating-focus.scss';
 
 export default class FloatingFocus {
-	constructor() {
+	constructor(container = document.body) {
+		this.container = container;
+
 		this.bindEventListenersToInstance();
 
 		this.addKeydownEvents();
@@ -15,7 +17,7 @@ export default class FloatingFocus {
 		const element = document.createElement('div');
 		element.classList.add('floating-focus');
 
-		document.body.appendChild(element);
+		this.container.appendChild(element);
 		return element; // Floater pun intended.
 	}
 
@@ -79,27 +81,29 @@ export default class FloatingFocus {
 	}
 
 	enableFloatingFocus() {
-		document.body.classList.add('floating-focus-enabled');
+		this.container.classList.add('floating-focus-enabled');
 		this.floater.classList.add('enabled');
 	}
 
 	disableFloatingFocus() {
-		document.body.classList.remove('floating-focus-enabled');
+		this.container.classList.remove('floating-focus-enabled');
 		this.floater.classList.remove('enabled');
 	}
 
 	handleFocus(e) {
 		const target = e.target;
 
-		if (!this.floater) {
+		if (!this.floater || !this.container) {
 			return;
 		}
 
 		if (target === this.floater) {
+			this.handleBlur();
 			return;
 		}
 
-		if (!document.body.contains(target)) {
+		if (!this.container.contains(target)) {
+			this.handleBlur();
 			return;
 		}
 
@@ -128,6 +132,10 @@ export default class FloatingFocus {
 		this.floater.classList.remove('visible');
 		this.floater.classList.remove('helper');
 		this.floater.classList.remove('moving');
+
+		if (!this.target) {
+			return;
+		}
 
 		this.target.classList.remove('floating-focused');
 	}
