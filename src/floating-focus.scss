@@ -14,7 +14,7 @@
 	box-sizing: content-box;
 	pointer-events: none;
 	overflow: hidden;
-	z-index: 999;
+	z-index: 9999999999; // It should always be on top of everything, no matter what.
 
 	&.moving {
 		transition-property: opacity, border-radius, left, top, width, height;
@@ -47,10 +47,10 @@
 
 .floating-focused {
 	&:focus {
-		outline-width: 0;
+		outline-width: 0 !important;
 	}
 
 	&::-moz-focus-inner {
-		border: 0;
+		border: 0 !important;
 	}
 }

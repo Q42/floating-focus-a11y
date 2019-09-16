@@ -10,7 +10,7 @@ $ npm install @q42/floating-focus-a11y --save
 ## Usage
 Import the package and instantiate the class on page load:
 ```javascript
-import { FloatingFocus } from '@q42/floating-focus-a11y';
+import FloatingFocus from '@q42/floating-focus-a11y';
 new FloatingFocus();
 ```
 
