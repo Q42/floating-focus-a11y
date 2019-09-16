@@ -102,8 +102,6 @@ export default class FloatingFocus {
 			return;
 		}
 
-		console.log(this.container, this.container.contains(target));
-
 		if (!this.container.contains(target)) {
 			this.handleBlur();
 			return;
