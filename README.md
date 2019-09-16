@@ -11,7 +11,7 @@ $ npm install @q42/floating-focus-a11y --save
 Import the package and instantiate the class on page load:
 ```javascript
 import FloatingFocus from '@q42/floating-focus-a11y';
-new FloatingFocus();
+new FloatingFocus(containerElement); // Element is an optional parameter which defaults to `document.body`
 ```
 
 Define a default outline and outline-offset. Either of these values can be overruled per component:
