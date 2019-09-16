@@ -16,6 +16,11 @@ new FloatingFocus(containerElement); // Element is an optional parameter which d
 
 Define a default outline and outline-offset. Either of these values can be overruled per component:
 ```css
+// Hide all default focus states if a mouse is used, this is completely optional ofcourse
+*:focus {
+  outline: none;
+}
+
 // Default outline value, which will be applied to all elements receiving focus, this is a required step.
 .floating-focus-enabled *:focus {
   outline: dodgerblue solid 2px;
@@ -23,8 +28,8 @@ Define a default outline and outline-offset. Either of these values can be overr
 }
 
 // Give all buttons a green focus state instead of dodgerblue, this is optional in case it's needed.
-[type="button"]:focus {
-  outline: green dashed 1px;
+.floating-focus-enabled [type="button"]:focus {
+  outline-color: green;
   outline-offset: 4px;
 }
 ```
