@@ -1,5 +1,4 @@
-# floating-focus-a11y https://travis-ci.com/Q42/floating-focus-a11y.svg?token=zMS2E6VVY9WYyfREUSjH&branch=master
-
+# floating-focus-a11y [![Build Status](https://travis-ci.com/Q42/floating-focus-a11y.svg?token=zMS2E6VVY9WYyfREUSjH&branch=master)](https://travis-ci.com/Q42/floating-focus-a11y) [![npm version](https://badge.fury.io/js/%40q42%2Ffloating-focus-a11y.svg)](https://badge.fury.io/js/%40q42%2Ffloating-focus-a11y)
 A clear, beautiful and easy to implement focus-state solution.
 
 ## Installation
