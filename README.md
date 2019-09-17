@@ -1,4 +1,5 @@
-# floating-focus-a11y
+# floating-focus-a11y https://travis-ci.com/Q42/floating-focus-a11y.svg?token=zMS2E6VVY9WYyfREUSjH&branch=master
+
 A clear, beautiful and easy to implement focus-state solution.
 
 ## Installation
