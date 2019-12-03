@@ -151,7 +151,7 @@ export default class FloatingFocus {
 	}
 
 	addPixels(pixels1, pixels2) {
-		return (parseFloat(pixels1) + parseFloat(pixels2)) + 'px';
+		return `${parseFloat(pixels1) + parseFloat(pixels2)}px`;
 	}
 
 	getOffsetBorderRadius(baseRadius, offset) {
