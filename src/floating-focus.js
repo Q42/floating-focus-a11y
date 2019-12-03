@@ -190,6 +190,10 @@ export default class FloatingFocus {
 	}
 
 	monitorElementPosition() {
+		if (!this.target) {
+			return;
+		}
+
 		const newFloaterPosition = this.getFloaterPosition(this.target);
 
 		if (!isEqual( pick(this.floater.style, ['left','top','width','height']), newFloaterPosition )) {
