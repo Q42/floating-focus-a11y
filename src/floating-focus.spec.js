@@ -4,6 +4,7 @@ describe('Floating focus', () => {
 
 	afterEach(() => {
 		document.body.className = '';
+		document.body.innerHTML = '';
 	});
 
 	it('Should bind all required event listeners on construction', () => {
@@ -33,7 +34,7 @@ describe('Floating focus', () => {
 		expect(floatingFocus.enableFloatingFocus).toHaveBeenCalled();
 	});
 
-	it('Should construct, append and return a the floating element', () => {
+	it('Should construct, append and return a floating element', () => {
 		const floatingFocus = new FloatingFocus();
 		const floatingElement = floatingFocus.constructFloatingElement();
 
@@ -42,7 +43,6 @@ describe('Floating focus', () => {
 		expect(floatingElement.tagName).toBe('DIV');
 		expect(document.body.contains(floatingElement)).toBe(true);
 	});
-
 
 	it('Should create the \'floater\' element when it is not present yet', () => {
 		const floatingFocus = new FloatingFocus();
@@ -172,6 +172,35 @@ describe('Floating focus', () => {
 		await new Promise(resolve => setTimeout(resolve, 800));
 
 		expect(floatingFocus.floater.classList.contains('helper')).toBe(false);
+	});
+
+	it('Should change the target to a different element when the focused element has a focus-target attribute', async () => {
+		const floatingFocus = new FloatingFocus();
+		floatingFocus.floater = floatingFocus.constructFloatingElement();
+		const target = document.createElement('div');
+		const focusTarget = document.createElement('div');
+		target.setAttribute('focus-target', 'element123');
+		focusTarget.id = 'element123';
+		document.body.appendChild(target);
+		document.body.appendChild(focusTarget);
+
+		floatingFocus.handleFocus({target});
+
+		expect(floatingFocus.target).toEqual(focusTarget);
+		expect(focusTarget.classList.contains('focus')).toBe(true);
+	});
+
+	it('Should use the existing target if its focus-target cannot be found', () => {
+		const floatingFocus = new FloatingFocus();
+		floatingFocus.floater = floatingFocus.constructFloatingElement();
+		const target = document.createElement('div');
+		target.setAttribute('focus-target', 'element123');
+		document.body.appendChild(target);
+
+		floatingFocus.handleFocus({target});
+
+		expect(floatingFocus.target).toEqual(target);
+		expect(target.classList.contains('focus')).toBe(false);
 	});
 
 	it('Should resolve the target outline style and reposition the element when handling focus', () => {
