@@ -171,7 +171,7 @@ export default class FloatingFocus {
 	}
 
 	standardizeFloat(number) {
-		return number.toFixed(3).replace(/\.0+$/, '').replace(/\.([^0]+)0+$/, '.$1');
+		return Math.round(parseFloat(number.toFixed(3) * 1000)) / 1000;
 	}
 
 	getFloaterPosition(target) {

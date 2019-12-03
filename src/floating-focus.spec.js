@@ -299,21 +299,21 @@ describe('Floating focus', () => {
 		const floatingFocus = new FloatingFocus();
 
 		it('Should round to max 3 decimal places', () => {
-			expect(floatingFocus.standardizeFloat(1.3454)).toBe('1.345');
-			expect(floatingFocus.standardizeFloat(1.3456)).toBe('1.346');
-			expect(floatingFocus.standardizeFloat(1.3584368)).toBe('1.358');
-			expect(floatingFocus.standardizeFloat(1.345)).toBe('1.345');
-			expect(floatingFocus.standardizeFloat(1.34)).toBe('1.34');
-			expect(floatingFocus.standardizeFloat(1.3)).toBe('1.3');
-			expect(floatingFocus.standardizeFloat(1)).toBe('1');
+			expect(floatingFocus.standardizeFloat(1.3454)).toBe(1.345);
+			expect(floatingFocus.standardizeFloat(1.3456)).toBe(1.346);
+			expect(floatingFocus.standardizeFloat(1.3584368)).toBe(1.358);
+			expect(floatingFocus.standardizeFloat(1.345)).toBe(1.345);
+			expect(floatingFocus.standardizeFloat(1.34)).toBe(1.34);
+			expect(floatingFocus.standardizeFloat(1.3)).toBe(1.3);
+			expect(floatingFocus.standardizeFloat(1)).toBe(1);
 		});
 
 		it('Should cut off \'0\' decimal places', () => {
-			expect(floatingFocus.standardizeFloat(1.340)).toBe('1.34');
-			expect(floatingFocus.standardizeFloat(1.300)).toBe('1.3');
-			expect(floatingFocus.standardizeFloat(1.3000000)).toBe('1.3');
-			expect(floatingFocus.standardizeFloat(1.3000000)).toBe('1.3');
-			expect(floatingFocus.standardizeFloat(1.000)).toBe('1');
+			expect(floatingFocus.standardizeFloat(1.340)).toBe(1.34);
+			expect(floatingFocus.standardizeFloat(1.300)).toBe(1.3);
+			expect(floatingFocus.standardizeFloat(1.3000000)).toBe(1.3);
+			expect(floatingFocus.standardizeFloat(1.3000000)).toBe(1.3);
+			expect(floatingFocus.standardizeFloat(1.000)).toBe(1);
 		});
 	});
 
