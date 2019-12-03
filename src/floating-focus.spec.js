@@ -1,4 +1,5 @@
 import FloatingFocus from './floating-focus';
+// import * as FloatingFocusModule from './floating-focus';
 
 describe('Floating focus', () => {
 
@@ -293,6 +294,40 @@ describe('Floating focus', () => {
 		expect(floater.style.top).toBe(`${rect.top + rect.height / 2}px`);
 		expect(floater.style.width).toBe(`${rect.width}px`);
 		expect(floater.style.height).toBe(`${rect.height}px`);
+	});
+
+	it('Should automatically reposition the \'floater\' when the target element\'s position changes', async () => {
+		const floatingFocus = new FloatingFocus();
+		const target = document.createElement('div');
+		document.body.appendChild(target);
+
+		const rect = {
+			left: 42,
+			top: 84,
+			width: 42,
+			height: 128
+		};
+
+		target.getBoundingClientRect = jest.fn().mockImplementation(() => rect);
+
+		floatingFocus.handleKeyDown({keyCode: 9});
+		floatingFocus.enableFloatingFocus();
+		floatingFocus.handleFocus({target}, true);
+
+		expect(floatingFocus.floater.style.height).toBe(`${rect.height}px`);
+
+		await new Promise(resolve => setTimeout(resolve, 250));
+
+		expect(target.classList.contains('moving')).toBe(false);
+
+		rect.height = 100;
+
+		expect(floatingFocus.floater.style.height).not.toBe(`${rect.height}px`);
+
+		await new Promise(resolve => setTimeout(resolve, 250));
+
+		expect(floatingFocus.floater.style.height).toBe(`${rect.height}px`);
+		expect(floatingFocus.floater.classList.contains('moving')).toBe(true);
 	});
 
 	describe('standardizeFloat', () => {
