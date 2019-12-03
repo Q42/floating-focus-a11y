@@ -109,8 +109,11 @@ export default class FloatingFocus {
 
 		const focusTargetAttribute = target.getAttribute('focus-target');
 		if (focusTargetAttribute) {
-			target = document.querySelector(`#${focusTargetAttribute}`) || target;
-			target.classList.add('focus');
+			const focusTarget = document.querySelector(`#${focusTargetAttribute}`);
+			if (focusTarget) {
+				target = focusTarget;
+				target.classList.add('focus');
+			}
 		}
 
 		this.floater.classList.add('visible');
