@@ -91,7 +91,7 @@ export default class FloatingFocus {
 	}
 
 	handleFocus(e) {
-		const target = e.target;
+		let target = e.target;
 
 		if (!this.floater || !this.container) {
 			return;
@@ -105,6 +105,12 @@ export default class FloatingFocus {
 		if (!this.container.contains(target)) {
 			this.handleBlur();
 			return;
+		}
+
+		const focusTargetAttribute = target.getAttribute('focus-target');
+		if (focusTargetAttribute) {
+			target = document.querySelector(`#${focusTargetAttribute}`) || target;
+			target.classList.add('focus');
 		}
 
 		this.floater.classList.add('visible');
@@ -138,6 +144,7 @@ export default class FloatingFocus {
 		}
 
 		this.target.classList.remove('floating-focused');
+		this.target.classList.remove('focus');
 	}
 
 	resolveTargetOutlineStyle(target, floater) {
