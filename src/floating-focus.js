@@ -30,7 +30,7 @@ export default class FloatingFocus {
 		this.handleFocus = this.handleFocus.bind(this);
 		this.handleBlur = this.handleBlur.bind(this);
 		this.handleScrollResize = this.handleScrollResize.bind(this);
-		this.checkElementPosition = this.monitorElementPosition.bind(this);
+		this.monitorElementPosition = this.monitorElementPosition.bind(this);
 	}
 
 	addKeydownEvents() {
@@ -192,9 +192,9 @@ export default class FloatingFocus {
 	monitorElementPosition() {
 		const newFloaterPosition = this.getFloaterPosition(this.target);
 
-		if (!isEqual( pick(floater.style, ['left','top','width','height']), newFloaterPosition )) {
+		if (!isEqual( pick(this.floater.style, ['left','top','width','height']), newFloaterPosition )) {
 			this.floater.classList.add('moving');
-			Object.assign(floater.style, newFloaterPosition);
+			Object.assign(this.floater.style, newFloaterPosition);
 			clearTimeout(this.movingTimeout);
 			this.movingTimeout = setTimeout(() => this.floater.classList.remove('moving'), MOVE_DURATION);
 		}
