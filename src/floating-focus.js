@@ -151,7 +151,8 @@ export default class FloatingFocus {
 	}
 
 	addPixels(pixels1, pixels2) {
-		return `${parseFloat(pixels1) + parseFloat(pixels2)}px`;
+		const result = parseFloat(pixels1) + parseFloat(pixels2);
+		return !isNaN(result) ? `${result}px` : null;
 	}
 
 	getOffsetBorderRadius(baseRadius, offset) {
