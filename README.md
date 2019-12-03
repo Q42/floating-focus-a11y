@@ -36,8 +36,8 @@ Define a default outline and outline-offset. Either of these values can be overr
 
 It's also possible to define a focus-target attribute on focusable elements:
 ```html
-<input type="checkbox" class="hidden" id="checkbox123" focus-target="checkbox123-label"/>
-<label id="checkbox123-label" for="checkbox123">Turn on/off</label>
+<input type="file" class="hidden" id="file-upload-123" focus-target="file-upload-123-label"/>
+<label id="file-upload-123-label" for="file-upload-123">Please upload a file</label>
 ```
 This will append the `focus` class to the target element and make the focus box appear around the target element.
 
