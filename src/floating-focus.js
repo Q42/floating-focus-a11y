@@ -83,10 +83,6 @@ export default class FloatingFocus {
 		requestAnimationFrame(() => this.repositionElement(this.target, this.floater));
 	}
 
-	monitorElementPosition() {
-		this.repositionElement(this.target, this.floater, true);
-	}
-
 	enableFloatingFocus() {
 		this.container.classList.add('floating-focus-enabled');
 		this.floater.classList.add('enabled');
@@ -168,27 +164,33 @@ export default class FloatingFocus {
 		return number.toFixed(3).replace(/\.0+$/, '').replace(/\.([^0]+)0+$/, '.$1');
 	}
 
-	repositionElement(target, floater, moveAnimation = false) {
+	getFloaterPosition(target) {
 		const rect = target.getBoundingClientRect();
 
 		const { width, height } = rect;
 		const left = rect.left + rect.width / 2;
 		const top = rect.top + rect.height / 2;
 
-		const newFloaterStyle = {
+		return {
 			left: `${this.standardizeFloat(left)}px`,
 			top: `${this.standardizeFloat(top)}px`,
 			width: `${this.standardizeFloat(width)}px`,
 			height: `${this.standardizeFloat(height)}px`,
 		};
+	}
 
-		if (!isEqual( pick(floater.style, ['left','top','width','height']), newFloaterStyle )) {
-			if (moveAnimation) {
-				this.floater.classList.add('moving');
-				clearTimeout(this.movingTimeout);
-				this.movingTimeout = setTimeout(() => this.floater.classList.remove('moving'), MOVE_DURATION);
-			}
-			Object.assign(floater.style, newFloaterStyle);
+	monitorElementPosition() {
+		const newFloaterPosition = this.getFloaterPosition(this.target);
+
+		if (!isEqual( pick(floater.style, ['left','top','width','height']), newFloaterPosition )) {
+			this.floater.classList.add('moving');
+			Object.assign(floater.style, newFloaterPosition);
+			clearTimeout(this.movingTimeout);
+			this.movingTimeout = setTimeout(() => this.floater.classList.remove('moving'), MOVE_DURATION);
 		}
+	}
+
+	repositionElement(target, floater) {
+		Object.assign(floater.style, this.getFloaterPosition(target));
 	}
 }
