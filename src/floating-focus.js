@@ -150,17 +150,29 @@ export default class FloatingFocus {
 		this.target.classList.remove('focus');
 	}
 
+	addPixels(pixels1, pixels2) {
+		return (parseFloat(pixels1) + parseFloat(pixels2)) + 'px';
+	}
+
+	getOffsetBorderRadius(baseRadius, offset) {
+		if (!offset || !baseRadius || parseFloat(baseRadius) === 0) {
+			return baseRadius;
+		}
+		return this.addPixels(baseRadius, offset);
+	}
+
 	resolveTargetOutlineStyle(target, floater) {
 		const targetStyle = window.getComputedStyle(target);
+		const padding = targetStyle.outlineOffset || null;
 
 		Object.assign(floater.style, {
-			padding: targetStyle.outlineOffset ? targetStyle.outlineOffset : null,
+			padding,
 			color: targetStyle.outlineColor,
 			borderWidth: targetStyle.outlineWidth,
-			borderBottomLeftRadius: targetStyle.borderBottomLeftRadius,
-			borderBottomRightRadius: targetStyle.borderBottomRightRadius,
-			borderTopLeftRadius: targetStyle.borderTopLeftRadius,
-			borderTopRightRadius: targetStyle.borderTopRightRadius
+			borderBottomLeftRadius:  this.getOffsetBorderRadius(targetStyle.borderBottomLeftRadius,  padding),
+			borderBottomRightRadius: this.getOffsetBorderRadius(targetStyle.borderBottomRightRadius, padding),
+			borderTopLeftRadius:     this.getOffsetBorderRadius(targetStyle.borderTopLeftRadius,     padding),
+			borderTopRightRadius:    this.getOffsetBorderRadius(targetStyle.borderTopRightRadius,    padding)
 		});
 	}
 
