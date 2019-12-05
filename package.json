@@ -1,6 +1,6 @@
 {
 	"name": "@q42/floating-focus-a11y",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"description": "An a11y focus solution that is clear, beautiful and easy to implement.",
 	"keywords": [
 		"a11y",
@@ -41,11 +41,13 @@
 		"jest": "^24.9.0",
 		"jest-cli": "^24.9.0",
 		"jest-transform-stub": "^2.0.0",
+		"node-sass": "^4.13.0",
 		"postcss-loader": "^3.0.0",
 		"regenerator-runtime": "^0.13.3",
 		"sass-loader": "^8.0.0",
 		"webpack": "^4.39.2",
-		"webpack-cli": "^3.3.6"
+		"webpack-cli": "^3.3.6",
+		"webpack-merge": "^4.2.2"
 	},
 	"license": "MIT"
 }
