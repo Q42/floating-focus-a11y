@@ -2,6 +2,8 @@ import './floating-focus.scss';
 import { isEqual, pick } from 'lodash';
 
 const MOVE_DURATION = 200;
+const HELPER_FADE_TIME = 800;
+const MONITOR_INTERVAL = 250;
 
 export default class FloatingFocus {
 	constructor(container = document.body) {
@@ -87,7 +89,7 @@ export default class FloatingFocus {
 		this.container.classList.add('floating-focus-enabled');
 		this.floater.classList.add('enabled');
 		clearInterval(this.monitorElementPositionInterval);
-		this.monitorElementPositionInterval = setInterval(this.monitorElementPosition, 250);
+		this.monitorElementPositionInterval = setInterval(this.monitorElementPosition, MONITOR_INTERVAL);
 	}
 
 	disableFloatingFocus() {
@@ -136,7 +138,7 @@ export default class FloatingFocus {
 		this.movingTimeout = setTimeout(() => this.floater.classList.remove('moving'), MOVE_DURATION);
 
 		clearTimeout(this.helperFadeTimeout);
-		this.helperFadeTimeout = setTimeout(() => this.floater.classList.remove('helper'), 800);
+		this.helperFadeTimeout = setTimeout(() => this.floater.classList.remove('helper'), HELPER_FADE_TIME);
 	}
 
 	handleBlur() {
