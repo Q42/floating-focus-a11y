@@ -178,8 +178,8 @@ export default class FloatingFocus {
 		const rect = target.getBoundingClientRect();
 
 		const { width, height } = rect;
-		const left = rect.left + rect.width / 2;
-		const top = rect.top + rect.height / 2;
+		const left = rect.left + width / 2;
+		const top = rect.top + height / 2;
 
 		return {
 			left: `${this.standardizeFloat(left)}px`,
