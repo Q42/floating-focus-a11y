@@ -156,10 +156,13 @@ export default class FloatingFocus {
 	}
 
 	getOffsetBorderRadius(baseRadius, offset) {
-		if (!offset || !baseRadius || parseFloat(baseRadius) === 0) {
+		if (!baseRadius || parseFloat(baseRadius) === 0) {
+			return '0px';
+		}
+		if (!offset) {
 			return baseRadius;
 		}
-		return this.addPixels(baseRadius, offset);
+		return this.addPixels(baseRadius, offset) || '0px';
 	}
 
 	resolveTargetOutlineStyle(target, floater) {
