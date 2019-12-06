@@ -1,5 +1,4 @@
 import FloatingFocus from './floating-focus';
-// import * as FloatingFocusModule from './floating-focus';
 
 describe('Floating focus', () => {
 
