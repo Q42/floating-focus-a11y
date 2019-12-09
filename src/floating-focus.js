@@ -173,10 +173,10 @@ export default class FloatingFocus {
 			padding,
 			color: targetStyle.outlineColor,
 			borderWidth: targetStyle.outlineWidth,
-			borderBottomLeftRadius:  this.getOffsetBorderRadius(targetStyle.borderBottomLeftRadius,  padding),
+			borderBottomLeftRadius: this.getOffsetBorderRadius(targetStyle.borderBottomLeftRadius, padding),
 			borderBottomRightRadius: this.getOffsetBorderRadius(targetStyle.borderBottomRightRadius, padding),
-			borderTopLeftRadius:     this.getOffsetBorderRadius(targetStyle.borderTopLeftRadius,     padding),
-			borderTopRightRadius:    this.getOffsetBorderRadius(targetStyle.borderTopRightRadius,    padding)
+			borderTopLeftRadius: this.getOffsetBorderRadius(targetStyle.borderTopLeftRadius, padding),
+			borderTopRightRadius: this.getOffsetBorderRadius(targetStyle.borderTopRightRadius, padding)
 		});
 	}
 
