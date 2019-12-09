@@ -290,7 +290,7 @@ describe('Floating focus', () => {
 		floatingFocus.resolveTargetOutlineStyle(target, floater);
 
 		expect(floater.style.borderBottomLeftRadius).toBe('14px');
-		expect(floater.style.borderBottomRightRadius).toBe(targetStyle.borderBottomRightRadius);
+		expect(floater.style.borderBottomRightRadius).toBe('0px');
 		expect(floater.style.borderTopLeftRadius).toBe('0px');
 		expect(floater.style.borderTopRightRadius).toBe('0px');
 
