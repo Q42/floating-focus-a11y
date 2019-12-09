@@ -254,10 +254,10 @@ describe('Floating focus', () => {
 			outlineOffset: '8px',
 			outlineColor: 'dodgerblue',
 			outlineWidth: '2px',
-			borderBottomLeftRadius: '6px',
-			borderBottomRightRadius: '6px',
-			borderTopLeftRadius: '6px',
-			borderTopRightRadius: '6px',
+			borderBottomLeftRadius: '0px',
+			borderBottomRightRadius: '0px',
+			borderTopLeftRadius: '0px',
+			borderTopRightRadius: '0px',
 		};
 
 		window.getComputedStyle = jest.fn().mockImplementation(() => targetStyle);
@@ -271,6 +271,34 @@ describe('Floating focus', () => {
 		expect(floater.style.borderBottomRightRadius).toBe(targetStyle.borderBottomRightRadius);
 		expect(floater.style.borderTopLeftRadius).toBe(targetStyle.borderTopLeftRadius);
 		expect(floater.style.borderTopRightRadius).toBe(targetStyle.borderTopRightRadius);
+	});
+
+	it('Should correctly offset the target element\'s border radii by its outline offset', () => {
+		const floatingFocus = new FloatingFocus();
+		const target = document.createElement('div');
+		const floater = floatingFocus.constructFloatingElement();
+
+		const targetStyle = {
+			outlineOffset: '8px',
+			borderBottomLeftRadius: '6px',
+			borderBottomRightRadius: '0px',
+			borderTopLeftRadius: null,
+		};
+
+		window.getComputedStyle = jest.fn().mockImplementation(() => targetStyle);
+
+		floatingFocus.resolveTargetOutlineStyle(target, floater);
+
+		expect(floater.style.borderBottomLeftRadius).toBe('14px');
+		expect(floater.style.borderBottomRightRadius).toBe('0px');
+		expect(floater.style.borderTopLeftRadius).toBe('0px');
+		expect(floater.style.borderTopRightRadius).toBe('0px');
+
+		targetStyle.outlineOffset = null;
+
+		floatingFocus.resolveTargetOutlineStyle(target, floater);
+
+		expect(floater.style.borderBottomLeftRadius).toBe(targetStyle.borderBottomLeftRadius);
 	});
 
 	it('Should reposition \'floater\' based on target position', () => {
@@ -293,6 +321,26 @@ describe('Floating focus', () => {
 		expect(floater.style.top).toBe(`${rect.top + rect.height / 2}px`);
 		expect(floater.style.width).toBe(`${rect.width}px`);
 		expect(floater.style.height).toBe(`${rect.height}px`);
+	});
+
+	describe('addPixels', () => {
+		it('Should correctly add up pixel amounts as if it\'s a normal calculation', () => {
+			const floatingFocus = new FloatingFocus();
+
+			const number1 = Math.random() * 10;
+			const number2 = Math.random() * 10;
+
+			expect(floatingFocus.addPixels(`${number1}px`, `${number2}px`)).toBe(`${number1 + number2}px`);
+		});
+
+		it('Should return null in case of invalid input', () => {
+			const floatingFocus = new FloatingFocus();
+
+			const number1 = '10px';
+			const number2 = 'apx'
+
+			expect(floatingFocus.addPixels(number1, number2)).toBeNull();
+		});
 	});
 
 });
