@@ -1,4 +1,9 @@
 import './floating-focus.scss';
+import { isEqual, pick } from 'lodash';
+
+const MOVE_DURATION = 200;
+const HELPER_FADE_TIME = 800;
+const MONITOR_INTERVAL = 250;
 
 export default class FloatingFocus {
 	constructor(container = document.body) {
@@ -27,7 +32,7 @@ export default class FloatingFocus {
 		this.handleFocus = this.handleFocus.bind(this);
 		this.handleBlur = this.handleBlur.bind(this);
 		this.handleScrollResize = this.handleScrollResize.bind(this);
-		this.handleScrollResize = this.handleScrollResize.bind(this);
+		this.monitorElementPosition = this.monitorElementPosition.bind(this);
 	}
 
 	addKeydownEvents() {
@@ -83,11 +88,14 @@ export default class FloatingFocus {
 	enableFloatingFocus() {
 		this.container.classList.add('floating-focus-enabled');
 		this.floater.classList.add('enabled');
+		clearInterval(this.monitorElementPositionInterval);
+		this.monitorElementPositionInterval = setInterval(this.monitorElementPosition, MONITOR_INTERVAL);
 	}
 
 	disableFloatingFocus() {
 		this.container.classList.remove('floating-focus-enabled');
 		this.floater.classList.remove('enabled');
+		clearInterval(this.monitorElementPositionInterval);
 	}
 
 	handleFocus(e) {
@@ -127,10 +135,10 @@ export default class FloatingFocus {
 		this.target.classList.add('floating-focused');
 
 		clearTimeout(this.movingTimeout);
-		this.movingTimeout = setTimeout(() => this.floater.classList.remove('moving'), 200);
+		this.movingTimeout = setTimeout(() => this.floater.classList.remove('moving'), MOVE_DURATION);
 
 		clearTimeout(this.helperFadeTimeout);
-		this.helperFadeTimeout = setTimeout(() => this.floater.classList.remove('helper'), 800);
+		this.helperFadeTimeout = setTimeout(() => this.floater.classList.remove('helper'), HELPER_FADE_TIME);
 	}
 
 	handleBlur() {
@@ -180,15 +188,41 @@ export default class FloatingFocus {
 		});
 	}
 
-	repositionElement(target, floater) {
+	standardizeFloat(number) {
+		return Math.round(parseFloat(number.toFixed(3) * 1000)) / 1000;
+	}
+
+	getFloaterPosition(target) {
 		const rect = target.getBoundingClientRect();
 
-		const left = rect.left + rect.width / 2;
-		const top = rect.top + rect.height / 2;
+		const { width, height } = rect;
+		const left = rect.left + width / 2;
+		const top = rect.top + height / 2;
 
-		floater.style.left = `${left}px`;
-		floater.style.top = `${top}px`;
-		floater.style.width = `${rect.width}px`;
-		floater.style.height = `${rect.height}px`;
+		return {
+			left: `${this.standardizeFloat(left)}px`,
+			top: `${this.standardizeFloat(top)}px`,
+			width: `${this.standardizeFloat(width)}px`,
+			height: `${this.standardizeFloat(height)}px`,
+		};
+	}
+
+	monitorElementPosition() {
+		if (!this.target) {
+			return;
+		}
+
+		const newFloaterPosition = this.getFloaterPosition(this.target);
+
+		if (!isEqual( pick(this.floater.style, ['left','top','width','height']), newFloaterPosition )) {
+			this.floater.classList.add('moving');
+			Object.assign(this.floater.style, newFloaterPosition);
+			clearTimeout(this.movingTimeout);
+			this.movingTimeout = setTimeout(() => this.floater.classList.remove('moving'), MOVE_DURATION);
+		}
+	}
+
+	repositionElement(target, floater) {
+		Object.assign(floater.style, this.getFloaterPosition(target));
 	}
 }
