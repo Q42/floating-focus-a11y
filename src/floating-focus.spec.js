@@ -2,6 +2,10 @@ import FloatingFocus from './floating-focus';
 
 describe('Floating focus', () => {
 
+	beforeEach(() => {
+		jest.useFakeTimers();
+	});
+
 	afterEach(() => {
 		document.body.className = '';
 		document.body.innerHTML = '';
@@ -165,11 +169,11 @@ describe('Floating focus', () => {
 		expect(floatingFocus.target).toBe(target);
 		expect(floatingFocus.target.classList.contains('floating-focused')).toBe(true);
 
-		await new Promise(resolve => setTimeout(resolve, 200));
+		jest.advanceTimersByTime(200);
 
 		expect(floatingFocus.floater.classList.contains('moving')).toBe(false);
 
-		await new Promise(resolve => setTimeout(resolve, 800));
+		jest.advanceTimersByTime(800);
 
 		expect(floatingFocus.floater.classList.contains('helper')).toBe(false);
 	});
@@ -343,7 +347,7 @@ describe('Floating focus', () => {
 
 		expect(floatingFocus.floater.style.height).toBe(`${rect.height}px`);
 
-		await new Promise(resolve => setTimeout(resolve, 250));
+		jest.advanceTimersByTime(250);
 
 		expect(target.classList.contains('moving')).toBe(false);
 
@@ -351,7 +355,7 @@ describe('Floating focus', () => {
 
 		expect(floatingFocus.floater.style.height).not.toBe(`${rect.height}px`);
 
-		await new Promise(resolve => setTimeout(resolve, 250));
+		jest.advanceTimersByTime(250);
 
 		expect(floatingFocus.floater.style.height).toBe(`${rect.height}px`);
 		expect(floatingFocus.floater.classList.contains('moving')).toBe(true);
