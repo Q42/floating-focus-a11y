@@ -219,7 +219,7 @@ export default class FloatingFocus {
 	}
 
 	monitorElementPosition() {
-		if (!(this.target && this.previousTargetRect && !Object.is(this.previousTargetRect, this.target.getBoundingClientRect()))) {
+		if (!this.target || !this.previousTargetRect || Object.is(this.previousTargetRect, this.target.getBoundingClientRect())) {
 			return;
 		}
 
