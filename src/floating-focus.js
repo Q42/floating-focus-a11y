@@ -1,13 +1,12 @@
 import './floating-focus.scss';
-import { isEqual, pick } from 'lodash';
 
-const MOVE_DURATION = 200;
 const HELPER_FADE_TIME = 800;
 const MONITOR_INTERVAL = 250;
 
 export default class FloatingFocus {
 	constructor(container = document.body) {
 		this.container = container;
+		this.previousTargetRect = null;
 
 		this.bindEventListenersToInstance();
 
@@ -188,27 +187,34 @@ export default class FloatingFocus {
 		});
 	}
 
-	standardizeFloat(number) {
-		return Math.round(parseFloat(number.toFixed(3) * 1000)) / 1000;
-	}
-
 	getFloaterPosition(target) {
 		const rect = target.getBoundingClientRect();
+		this.previousTargetRect = rect;
 
 		const { width, height } = rect;
 		const left = rect.left + width / 2;
 		const top = rect.top + height / 2;
 
 		return {
-			left: `${this.standardizeFloat(left)}px`,
-			top: `${this.standardizeFloat(top)}px`,
-			width: `${this.standardizeFloat(width)}px`,
-			height: `${this.standardizeFloat(height)}px`,
+			left: `${left}px`,
+			top: `${top}px`,
+			width: `${width}px`,
+			height: `${height}px`,
 		};
 	}
 
+	targetRectChanged(rect1, rect2) {
+		return !(
+			rect1.left === rect2.left &&
+			rect1.top === rect2.top &&
+			rect1.width === rect2.width &&
+			rect1.height === rect2.height
+		);
+	}
+
 	monitorElementPosition() {
-		if (!this.target) {
+		if (!(this.target && this.previousTargetRect
+				&& this.targetRectChanged(this.previousTargetRect, this.target.getBoundingClientRect()))) {
 			return;
 		}
 
