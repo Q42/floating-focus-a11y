@@ -170,7 +170,7 @@ describe('Floating focus', () => {
 		expect(floatingFocus.target).toBe(target);
 		expect(floatingFocus.target.classList.contains('floating-focused')).toBe(true);
 
-		jest.advanceTimersByTime(200);
+		floatingFocus.floater.dispatchEvent(new Event('transitionend'));
 
 		expect(floatingFocus.floater.classList.contains('moving')).toBe(false);
 
