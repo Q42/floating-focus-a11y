@@ -1,7 +1,7 @@
 import './floating-focus.scss';
 
 const HELPER_FADE_TIME = 800;
-const MONITOR_INTERVAL = 250;
+export const MONITOR_INTERVAL = 250;
 
 export default class FloatingFocus {
 	constructor(container = document.body) {

@@ -1,4 +1,4 @@
-import FloatingFocus from './floating-focus';
+import FloatingFocus, { MONITOR_INTERVAL } from './floating-focus';
 
 describe('Floating focus', () => {
 
@@ -9,6 +9,7 @@ describe('Floating focus', () => {
 	afterEach(() => {
 		document.body.className = '';
 		document.body.innerHTML = '';
+		jest.clearAllTimers();
 	});
 
 	it('Should bind all required event listeners on construction', () => {
@@ -339,7 +340,7 @@ describe('Floating focus', () => {
 			height: 128
 		};
 
-		target.getBoundingClientRect = jest.fn().mockImplementation(() => rect);
+		target.getBoundingClientRect = jest.fn().mockImplementation(() => ({...rect}));
 
 		floatingFocus.handleKeyDown({keyCode: 9});
 		floatingFocus.enableFloatingFocus();
@@ -347,7 +348,7 @@ describe('Floating focus', () => {
 
 		expect(floatingFocus.floater.style.height).toBe(`${rect.height}px`);
 
-		jest.advanceTimersByTime(250);
+		jest.advanceTimersByTime(MONITOR_INTERVAL);
 
 		expect(target.classList.contains('moving')).toBe(false);
 
@@ -355,7 +356,7 @@ describe('Floating focus', () => {
 
 		expect(floatingFocus.floater.style.height).not.toBe(`${rect.height}px`);
 
-		jest.advanceTimersByTime(250);
+		jest.advanceTimersByTime(MONITOR_INTERVAL);
 
 		expect(floatingFocus.floater.style.height).toBe(`${rect.height}px`);
 		expect(floatingFocus.floater.classList.contains('moving')).toBe(true);
