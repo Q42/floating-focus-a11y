@@ -110,7 +110,7 @@ export default class FloatingFocus {
 			this.floater.removeEventListener('transitionend', removeMovingClass);
 			this.floaterIsMoving = false;
 		}
-		this.floater.addEventListener('transitionend', removeMovingClass);
+		this.floater.addEventListener('transitionend', removeMovingClass.bind(this));
 	}
 
 	handleFocus(e) {
