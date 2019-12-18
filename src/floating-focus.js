@@ -7,6 +7,7 @@ export default class FloatingFocus {
 	constructor(container = document.body) {
 		this.container = container;
 		this.previousTargetRect = null;
+		this.floaterIsMoving = false;
 
 		this.bindEventListenersToInstance();
 
@@ -97,6 +98,19 @@ export default class FloatingFocus {
 		clearInterval(this.monitorElementPositionInterval);
 	}
 
+	handleFloaterMove() {
+		if (this.floaterIsMoving) {
+			return;
+		}
+
+		this.floaterIsMoving = true;
+		this.floater.addEventListener('transitionend', () => {
+			this.floater.classList.remove('moving');
+			this.floater.removeEventListener('transitionend');
+			this.floaterIsMoving = false;
+		});
+	}
+
 	handleFocus(e) {
 		let target = e.target;
 
@@ -133,8 +147,7 @@ export default class FloatingFocus {
 		this.target = target;
 		this.target.classList.add('floating-focused');
 
-		clearTimeout(this.movingTimeout);
-		this.movingTimeout = setTimeout(() => this.floater.classList.remove('moving'), MOVE_DURATION);
+		this.handleFloaterMove();
 
 		clearTimeout(this.helperFadeTimeout);
 		this.helperFadeTimeout = setTimeout(() => this.floater.classList.remove('helper'), HELPER_FADE_TIME);
@@ -220,12 +233,9 @@ export default class FloatingFocus {
 
 		const newFloaterPosition = this.getFloaterPosition(this.target);
 
-		if (!isEqual( pick(this.floater.style, ['left','top','width','height']), newFloaterPosition )) {
-			this.floater.classList.add('moving');
-			Object.assign(this.floater.style, newFloaterPosition);
-			clearTimeout(this.movingTimeout);
-			this.movingTimeout = setTimeout(() => this.floater.classList.remove('moving'), MOVE_DURATION);
-		}
+		this.floater.classList.add('moving');
+		Object.assign(this.floater.style, newFloaterPosition);
+		this.handleFloaterMove();
 	}
 
 	repositionElement(target, floater) {
