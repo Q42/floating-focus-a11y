@@ -1,4 +1,4 @@
-import FloatingFocus, { MONITOR_INTERVAL } from './floating-focus';
+import FloatingFocus, { MONITOR_INTERVAL, HELPER_FADE_TIME } from './floating-focus';
 
 describe('Floating focus', () => {
 
@@ -174,7 +174,7 @@ describe('Floating focus', () => {
 
 		expect(floatingFocus.floater.classList.contains('moving')).toBe(false);
 
-		jest.advanceTimersByTime(800);
+		jest.advanceTimersByTime(HELPER_FADE_TIME);
 
 		expect(floatingFocus.floater.classList.contains('helper')).toBe(false);
 	});
