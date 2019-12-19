@@ -1,10 +1,15 @@
-import FloatingFocus from './floating-focus';
+import FloatingFocus, { MONITOR_INTERVAL, HELPER_FADE_TIME } from './floating-focus';
 
 describe('Floating focus', () => {
+
+	beforeEach(() => {
+		jest.useFakeTimers();
+	});
 
 	afterEach(() => {
 		document.body.className = '';
 		document.body.innerHTML = '';
+		jest.clearAllTimers();
 	});
 
 	it('Should bind all required event listeners on construction', () => {
@@ -165,11 +170,11 @@ describe('Floating focus', () => {
 		expect(floatingFocus.target).toBe(target);
 		expect(floatingFocus.target.classList.contains('floating-focused')).toBe(true);
 
-		await new Promise(resolve => setTimeout(resolve, 200));
+		floatingFocus.floater.dispatchEvent(new Event('transitionend'));
 
 		expect(floatingFocus.floater.classList.contains('moving')).toBe(false);
 
-		await new Promise(resolve => setTimeout(resolve, 800));
+		jest.advanceTimersByTime(HELPER_FADE_TIME);
 
 		expect(floatingFocus.floater.classList.contains('helper')).toBe(false);
 	});
@@ -323,6 +328,41 @@ describe('Floating focus', () => {
 		expect(floater.style.height).toBe(`${rect.height}px`);
 	});
 
+	it('Should automatically reposition the \'floater\' when the target element\'s position changes', async () => {
+		const floatingFocus = new FloatingFocus();
+		const target = document.createElement('div');
+		document.body.appendChild(target);
+
+		const rect = {
+			left: 42,
+			top: 84,
+			width: 42,
+			height: 128
+		};
+
+		target.getBoundingClientRect = jest.fn().mockImplementation(() => ({...rect}));
+
+		floatingFocus.handleKeyDown({keyCode: 9});
+		floatingFocus.enableFloatingFocus();
+		floatingFocus.handleFocus({target}, true);
+
+		expect(floatingFocus.floater.style.height).toBe(`${rect.height}px`);
+
+		jest.advanceTimersByTime(MONITOR_INTERVAL);
+
+		expect(target.classList.contains('moving')).toBe(false);
+
+		rect.height = 100;
+
+		expect(floatingFocus.floater.style.height).not.toBe(`${rect.height}px`);
+
+		jest.advanceTimersByTime(MONITOR_INTERVAL);
+
+		expect(floatingFocus.floater.style.height).toBe(`${rect.height}px`);
+		expect(floatingFocus.floater.classList.contains('moving')).toBe(true);
+
+	});
+
 	describe('addPixels', () => {
 		it('Should correctly add up pixel amounts as if it\'s a normal calculation', () => {
 			const floatingFocus = new FloatingFocus();
@@ -342,5 +382,4 @@ describe('Floating focus', () => {
 			expect(floatingFocus.addPixels(number1, number2)).toBeNull();
 		});
 	});
-
 });
