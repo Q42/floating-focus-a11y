@@ -7,6 +7,8 @@ module.exports = {
 		'floating-focus': './src/floating-focus.js',
 	},
 	output: {
+		library: 'floating-focus',
+		libraryTarget: 'umd',
 		path: path.resolve(__dirname, 'dist'),
 		filename: '[name].js',
 	},
