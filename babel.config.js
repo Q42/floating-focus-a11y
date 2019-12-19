@@ -13,7 +13,7 @@ module.exports = api => {
 					corejs: 3,
 					useBuiltIns: "usage",
 					exclude: [
-						"es.*",
+						"es.regexp.to-string",
 					]
 				}
 			]
