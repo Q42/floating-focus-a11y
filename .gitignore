@@ -7,3 +7,6 @@ node_modules/
 
 # Jest code coverage
 coverage/
+
+# Built code
+dist/
