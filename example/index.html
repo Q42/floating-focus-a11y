@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="../dist/floating-focus.js"></script>
+	<script>
+		window.addEventListener('load', function() {
+			new window['floating-focus'].default();
+		});
+	</script>
+	<style>
+		.floating-focus-enabled *:focus, .floating-focus-enabled .focus {
+			outline: dodgerblue solid 2px;
+			outline-offset: 4px;
+		}
+	</style>
+</head>
+<body>
+	<button>Test 1</button>
+	<button>Test 2</button>
+	<button>Test 3</button>
+</body>
+</html>

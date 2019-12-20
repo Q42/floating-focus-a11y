@@ -1,9 +1,15 @@
-import FloatingFocus from './floating-focus';
+import FloatingFocus, { MONITOR_INTERVAL, HELPER_FADE_TIME } from './floating-focus';
 
 describe('Floating focus', () => {
 
+	beforeEach(() => {
+		jest.useFakeTimers();
+	});
+
 	afterEach(() => {
 		document.body.className = '';
+		document.body.innerHTML = '';
+		jest.clearAllTimers();
 	});
 
 	it('Should bind all required event listeners on construction', () => {
@@ -33,7 +39,7 @@ describe('Floating focus', () => {
 		expect(floatingFocus.enableFloatingFocus).toHaveBeenCalled();
 	});
 
-	it('Should construct, append and return a the floating element', () => {
+	it('Should construct, append and return a floating element', () => {
 		const floatingFocus = new FloatingFocus();
 		const floatingElement = floatingFocus.constructFloatingElement();
 
@@ -42,7 +48,6 @@ describe('Floating focus', () => {
 		expect(floatingElement.tagName).toBe('DIV');
 		expect(document.body.contains(floatingElement)).toBe(true);
 	});
-
 
 	it('Should create the \'floater\' element when it is not present yet', () => {
 		const floatingFocus = new FloatingFocus();
@@ -165,13 +170,42 @@ describe('Floating focus', () => {
 		expect(floatingFocus.target).toBe(target);
 		expect(floatingFocus.target.classList.contains('floating-focused')).toBe(true);
 
-		await new Promise(resolve => setTimeout(resolve, 200));
+		floatingFocus.floater.dispatchEvent(new Event('transitionend'));
 
 		expect(floatingFocus.floater.classList.contains('moving')).toBe(false);
 
-		await new Promise(resolve => setTimeout(resolve, 800));
+		jest.advanceTimersByTime(HELPER_FADE_TIME);
 
 		expect(floatingFocus.floater.classList.contains('helper')).toBe(false);
+	});
+
+	it('Should change the target to a different element when the focused element has a focus-target attribute', async () => {
+		const floatingFocus = new FloatingFocus();
+		floatingFocus.floater = floatingFocus.constructFloatingElement();
+		const target = document.createElement('div');
+		const focusTarget = document.createElement('div');
+		target.setAttribute('focus-target', 'element123');
+		focusTarget.id = 'element123';
+		document.body.appendChild(target);
+		document.body.appendChild(focusTarget);
+
+		floatingFocus.handleFocus({target});
+
+		expect(floatingFocus.target).toEqual(focusTarget);
+		expect(focusTarget.classList.contains('focus')).toBe(true);
+	});
+
+	it('Should use the existing target if its focus-target cannot be found', () => {
+		const floatingFocus = new FloatingFocus();
+		floatingFocus.floater = floatingFocus.constructFloatingElement();
+		const target = document.createElement('div');
+		target.setAttribute('focus-target', 'element123');
+		document.body.appendChild(target);
+
+		floatingFocus.handleFocus({target});
+
+		expect(floatingFocus.target).toEqual(target);
+		expect(target.classList.contains('focus')).toBe(false);
 	});
 
 	it('Should resolve the target outline style and reposition the element when handling focus', () => {
@@ -225,10 +259,10 @@ describe('Floating focus', () => {
 			outlineOffset: '8px',
 			outlineColor: 'dodgerblue',
 			outlineWidth: '2px',
-			borderBottomLeftRadius: '6px',
-			borderBottomRightRadius: '6px',
-			borderTopLeftRadius: '6px',
-			borderTopRightRadius: '6px',
+			borderBottomLeftRadius: '0px',
+			borderBottomRightRadius: '0px',
+			borderTopLeftRadius: '0px',
+			borderTopRightRadius: '0px',
 		};
 
 		window.getComputedStyle = jest.fn().mockImplementation(() => targetStyle);
@@ -242,6 +276,34 @@ describe('Floating focus', () => {
 		expect(floater.style.borderBottomRightRadius).toBe(targetStyle.borderBottomRightRadius);
 		expect(floater.style.borderTopLeftRadius).toBe(targetStyle.borderTopLeftRadius);
 		expect(floater.style.borderTopRightRadius).toBe(targetStyle.borderTopRightRadius);
+	});
+
+	it('Should correctly offset the target element\'s border radii by its outline offset', () => {
+		const floatingFocus = new FloatingFocus();
+		const target = document.createElement('div');
+		const floater = floatingFocus.constructFloatingElement();
+
+		const targetStyle = {
+			outlineOffset: '8px',
+			borderBottomLeftRadius: '6px',
+			borderBottomRightRadius: '0px',
+			borderTopLeftRadius: null,
+		};
+
+		window.getComputedStyle = jest.fn().mockImplementation(() => targetStyle);
+
+		floatingFocus.resolveTargetOutlineStyle(target, floater);
+
+		expect(floater.style.borderBottomLeftRadius).toBe('14px');
+		expect(floater.style.borderBottomRightRadius).toBe('0px');
+		expect(floater.style.borderTopLeftRadius).toBe('0px');
+		expect(floater.style.borderTopRightRadius).toBe('0px');
+
+		targetStyle.outlineOffset = null;
+
+		floatingFocus.resolveTargetOutlineStyle(target, floater);
+
+		expect(floater.style.borderBottomLeftRadius).toBe(targetStyle.borderBottomLeftRadius);
 	});
 
 	it('Should reposition \'floater\' based on target position', () => {
@@ -266,4 +328,58 @@ describe('Floating focus', () => {
 		expect(floater.style.height).toBe(`${rect.height}px`);
 	});
 
+	it('Should automatically reposition the \'floater\' when the target element\'s position changes', async () => {
+		const floatingFocus = new FloatingFocus();
+		const target = document.createElement('div');
+		document.body.appendChild(target);
+
+		const rect = {
+			left: 42,
+			top: 84,
+			width: 42,
+			height: 128
+		};
+
+		target.getBoundingClientRect = jest.fn().mockImplementation(() => ({...rect}));
+
+		floatingFocus.handleKeyDown({keyCode: 9});
+		floatingFocus.enableFloatingFocus();
+		floatingFocus.handleFocus({target}, true);
+
+		expect(floatingFocus.floater.style.height).toBe(`${rect.height}px`);
+
+		jest.advanceTimersByTime(MONITOR_INTERVAL);
+
+		expect(target.classList.contains('moving')).toBe(false);
+
+		rect.height = 100;
+
+		expect(floatingFocus.floater.style.height).not.toBe(`${rect.height}px`);
+
+		jest.advanceTimersByTime(MONITOR_INTERVAL);
+
+		expect(floatingFocus.floater.style.height).toBe(`${rect.height}px`);
+		expect(floatingFocus.floater.classList.contains('moving')).toBe(true);
+
+	});
+
+	describe('addPixels', () => {
+		it('Should correctly add up pixel amounts as if it\'s a normal calculation', () => {
+			const floatingFocus = new FloatingFocus();
+
+			const number1 = Math.random() * 10;
+			const number2 = Math.random() * 10;
+
+			expect(floatingFocus.addPixels(`${number1}px`, `${number2}px`)).toBe(`${number1 + number2}px`);
+		});
+
+		it('Should return null in case of invalid input', () => {
+			const floatingFocus = new FloatingFocus();
+
+			const number1 = '10px';
+			const number2 = 'apx'
+
+			expect(floatingFocus.addPixels(number1, number2)).toBeNull();
+		});
+	});
 });

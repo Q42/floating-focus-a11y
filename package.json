@@ -20,7 +20,7 @@
 	"bugs": {
 		"url": "https://github.com/Q42/FloatingFocus/issues"
 	},
-	"main": "src/floating-focus.js",
+	"main": "dist/floating-focus.js",
 	"scripts": {
 		"build": "npm install --no-optional && npm run test && webpack --config webpack.prod.js",
 		"watch": "webpack --config webpack.dev.js",
@@ -45,6 +45,7 @@
 		"postcss-loader": "^3.0.0",
 		"regenerator-runtime": "^0.13.3",
 		"sass-loader": "^8.0.0",
+		"style-loader": "^1.0.2",
 		"webpack": "^4.39.2",
 		"webpack-cli": "^3.3.6",
 		"webpack-merge": "^4.2.2"
