@@ -7,6 +7,8 @@ module.exports = {
 		'floating-focus': './src/floating-focus.js',
 	},
 	output: {
+		library: 'floating-focus',
+		libraryTarget: 'umd',
 		path: path.resolve(__dirname, 'dist'),
 		filename: '[name].js',
 	},
@@ -26,6 +28,7 @@ module.exports = {
 			{
 				test: /\.(css|scss)$/,
 				use: [
+					'style-loader',
 					'css-loader',
 					'postcss-loader',
 					'sass-loader'
