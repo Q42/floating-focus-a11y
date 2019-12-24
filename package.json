@@ -24,7 +24,8 @@
 	"scripts": {
 		"build": "npm install --no-optional && npm run test && webpack --config webpack.prod.js",
 		"watch": "webpack --config webpack.dev.js",
-		"test": "jest --verbose --coverage"
+		"test": "jest --verbose --coverage",
+		"prepare": "npm run build"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.5.5",
