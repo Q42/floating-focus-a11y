@@ -21,6 +21,7 @@
 		"url": "https://github.com/Q42/FloatingFocus/issues"
 	},
 	"main": "dist/floating-focus.js",
+	"typings": "index.d.ts",
 	"scripts": {
 		"build": "npm install --no-optional && npm run test && webpack --config webpack.prod.js",
 		"watch": "webpack --config webpack.dev.js",
