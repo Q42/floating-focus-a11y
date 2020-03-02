@@ -269,7 +269,6 @@ describe('Floating focus', () => {
 
 		floatingFocus.resolveTargetOutlineStyle(target, floater);
 
-		expect(floater.style.padding).toBe(targetStyle.outlineOffset);
 		expect(floater.style.color).toBe(targetStyle.outlineColor);
 		expect(floater.style.borderWidth).toBe(targetStyle.outlineWidth);
 		expect(floater.style.borderBottomLeftRadius).toBe(targetStyle.borderBottomLeftRadius);
@@ -310,6 +309,8 @@ describe('Floating focus', () => {
 		const floatingFocus = new FloatingFocus();
 		const target = document.createElement('div');
 		const floater = floatingFocus.constructFloatingElement();
+		const targetStyle = window.getComputedStyle(target);
+		const padding = targetStyle.outlineOffset || 4;
 
 		const rect = {
 			left: 42,
@@ -324,14 +325,16 @@ describe('Floating focus', () => {
 
 		expect(floater.style.left).toBe(`${rect.left + rect.width / 2}px`);
 		expect(floater.style.top).toBe(`${rect.top + rect.height / 2}px`);
-		expect(floater.style.width).toBe(`${rect.width}px`);
-		expect(floater.style.height).toBe(`${rect.height}px`);
+		expect(floater.style.width).toBe(`${rect.width + padding * 2 }px`);
+		expect(floater.style.height).toBe(`${rect.height + padding * 2}px`);
 	});
 
 	it('Should automatically reposition the \'floater\' when the target element\'s position changes', async () => {
 		const floatingFocus = new FloatingFocus();
 		const target = document.createElement('div');
 		document.body.appendChild(target);
+		const targetStyle = window.getComputedStyle(target);
+		const padding = targetStyle.outlineOffset || 4;
 
 		const rect = {
 			left: 42,
@@ -346,7 +349,7 @@ describe('Floating focus', () => {
 		floatingFocus.enableFloatingFocus();
 		floatingFocus.handleFocus({target}, true);
 
-		expect(floatingFocus.floater.style.height).toBe(`${rect.height}px`);
+		expect(floatingFocus.floater.style.height).toBe(`${rect.height + padding * 2}px`);
 
 		jest.advanceTimersByTime(MONITOR_INTERVAL);
 
@@ -354,11 +357,11 @@ describe('Floating focus', () => {
 
 		rect.height = 100;
 
-		expect(floatingFocus.floater.style.height).not.toBe(`${rect.height}px`);
+		expect(floatingFocus.floater.style.height).not.toBe(`${rect.height + padding * 2}px`);
 
 		jest.advanceTimersByTime(MONITOR_INTERVAL);
 
-		expect(floatingFocus.floater.style.height).toBe(`${rect.height}px`);
+		expect(floatingFocus.floater.style.height).toBe(`${rect.height + padding * 2}px`);
 		expect(floatingFocus.floater.classList.contains('moving')).toBe(true);
 
 	});
