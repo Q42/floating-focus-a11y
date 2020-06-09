@@ -52,5 +52,8 @@
 		"webpack-cli": "^3.3.6",
 		"webpack-merge": "^4.2.2"
 	},
-	"license": "MIT"
+	"license": "MIT",
+	"files": [
+		"dist/floating-focus.js"
+	]
 }
