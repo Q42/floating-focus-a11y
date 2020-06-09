@@ -186,6 +186,9 @@ export default class FloatingFocus {
 		if (!offset) {
 			return baseRadius;
 		}
+
+		offset = Math.max(parseFloat(offset), 0);
+
 		return this.addPixels(baseRadius, offset) || '0px';
 	}
 
@@ -194,7 +197,6 @@ export default class FloatingFocus {
 		const padding = targetStyle.outlineOffset || null;
 
 		Object.assign(floater.style, {
-			padding,
 			color: targetStyle.outlineColor,
 			borderWidth: targetStyle.outlineWidth,
 			borderBottomLeftRadius: this.getOffsetBorderRadius(targetStyle.borderBottomLeftRadius, padding),
@@ -205,12 +207,19 @@ export default class FloatingFocus {
 	}
 
 	getFloaterPosition(target) {
+		const targetStyle = window.getComputedStyle(target);
+		// default 4 px padding
+		const padding = parseFloat(targetStyle.outlineOffset) || 4;
+
 		const rect = target.getBoundingClientRect();
 		this.previousTargetRect = rect;
 
-		const { width, height } = rect;
-		const left = rect.left + width / 2;
-		const top = rect.top + height / 2;
+		let { width, height } = rect;
+		width += padding * 2;
+		height += padding * 2;
+
+		const left = rect.left - padding + width / 2;
+		const top = rect.top - padding + height / 2;
 
 		return {
 			left: `${left}px`,
