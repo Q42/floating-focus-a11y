@@ -1,13 +1,15 @@
-import './floating-focus.scss';
-
 export const HELPER_FADE_TIME = 800;
 export const MONITOR_INTERVAL = 250;
 
 export default class FloatingFocus {
-	constructor(container = document.body) {
+	constructor(container = document.body, opts = {}) {
 		this.container = container;
 		this.previousTargetRect = null;
 		this.floaterIsMoving = false;
+
+		if (!opts.noInlineStyle) {
+			require('./floating-focus.scss');
+		}
 
 		this.bindEventListenersToInstance();
 
