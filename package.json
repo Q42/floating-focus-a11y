@@ -54,6 +54,6 @@
 	},
 	"license": "MIT",
 	"files": [
-		"dist/floating-focus.js"
+		"/dist"
 	]
 }
