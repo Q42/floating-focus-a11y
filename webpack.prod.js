@@ -1,11 +1,13 @@
 'use strict';
 const merge = require('webpack-merge');
-const common = require('./webpack.common.js');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const styled = require('./webpack.styled.js');
+const unstyled = require('./webpack.unstyled.js');
 
-module.exports = merge(common, {
-	mode: 'production',
-	plugins: [
-		new CleanWebpackPlugin()
-	]
-});
+module.exports = [
+	merge(styled, {
+		mode: 'production'
+	}),
+	merge(unstyled, {
+		mode: 'production'
+	}),
+];

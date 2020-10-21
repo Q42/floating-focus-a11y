@@ -1,8 +1,8 @@
 'use strict';
 const merge = require('webpack-merge');
-const common = require('./webpack.common.js');
+const styled = require('./webpack.styled.js');
 
-module.exports = merge(common, {
+module.exports = merge(styled, {
 	mode: 'development',
 	watch: true
 });

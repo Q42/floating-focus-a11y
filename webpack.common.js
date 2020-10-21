@@ -26,24 +26,6 @@ module.exports = {
 				exclude: /node_modules|dist/,
 				loader: 'babel-loader'
 			},
-			{
-				test: /\.(css|scss)$/,
-				use: [
-					'style-loader',
-					'css-loader',
-					'postcss-loader',
-					'sass-loader'
-				]
-			},
-			{
-				test: /\.(css|scss)$/,
-				use: [
-					MiniCssExtractPlugin.loader,
-					'css-loader',
-					'postcss-loader',
-					'sass-loader'
-				]
-			},
 		]
 	},
 	plugins: [
