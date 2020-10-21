@@ -41,6 +41,17 @@ It's also possible to define a focus-target attribute on focusable elements:
 ```
 This will append the `focus` class to the target element and make the focus box appear around the target element.
 
+<br/>
+
+There is also an option to include the style sheet from the package separately (handy in case of strict "style-src 'self'" CORS headers):
+```javascript
+import FloatingFocus from '@q42/floating-focus-a11y/dist/unstyled';
+```
+And then the floating focus style sheet can be separately imported along the lines of:
+```css
+@import '@q42/floating-focus-a11y/dist/styles';
+```
+
 ## Develop
 ```bash
 $ npm run build
