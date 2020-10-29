@@ -1,8 +1,5 @@
 .floating-focus {
-	$border-size: 2px;
-
-	border: $border-size solid currentColor;
-	border-radius: 4px;
+	border: 0 solid currentColor;
 	position: absolute;
 	transform: translate(-50%, -50%);
 	opacity: 0;
