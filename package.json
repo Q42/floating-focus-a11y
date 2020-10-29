@@ -20,7 +20,7 @@
 	"bugs": {
 		"url": "https://github.com/Q42/FloatingFocus/issues"
 	},
-	"main": "dist/styled/floating-focus.js",
+	"main": "dist/styled/index.js",
 	"typings": "index.d.ts",
 	"scripts": {
 		"build": "npm install --no-optional && npm run test && npm run buildOnly",

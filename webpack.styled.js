@@ -6,7 +6,6 @@ const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
 	output: {
-		filename: '[name].js',
 		path: path.resolve(__dirname, 'dist/styled'),
 	},
 	module: {
