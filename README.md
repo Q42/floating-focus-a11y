@@ -22,7 +22,8 @@ Define a default outline and outline-offset. Either of these values can be overr
 }
 
 /* Default outline value, which will be applied to all elements receiving focus, this is a required step. */
-.floating-focus-enabled *:focus, .floating-focus-enabled .focus {
+/* The .focus class is used by the focus target, more below. */
+.floating-focus-enabled :focus, .floating-focus-enabled .focus {
   outline: dodgerblue solid 2px;
   outline-offset: 8px;
 }
@@ -43,11 +44,11 @@ Sometimes the actual element that receives focus is hidden from view, as is comm
 <label id="file-upload-123-label" for="file-upload-123">Please upload a file</label>
 ```
 
-This will append the `focus` class to the target element and make the visual focus box appear around the target element.
+This will append the `focus` class to the target element and make the visual focus box appear around the target element, instead of the element that actually has the native focus.
 
 ### Separate stylesheet
 
-For convenience, the styles are included in script by default. There is also an option to include the stylesheet separately. This is particularly useful with strict `style-src 'self'` CORS headers.
+For convenience, the styles are included in the script by default. There is also an option to include the stylesheet separately. This is particularly useful with strict `style-src 'self'` CORS headers.
 
 Import unstyled dist file:
 ```javascript

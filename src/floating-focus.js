@@ -130,20 +130,25 @@ export default class FloatingFocus {
 			return;
 		}
 
+		this.floater.classList.add('visible');
+		this.floater.classList.add('helper');
+		this.floater.classList.add('moving');
+
 		const focusTargetAttribute = target.getAttribute('focus-target');
 		if (focusTargetAttribute) {
 			target = document.querySelector(`#${focusTargetAttribute}`) || target;
 		}
 
 		this.target = target;
-		this.target.classList.add('floating-focused');
 
-		this.floater.classList.add('visible');
-		this.floater.classList.add('helper');
-		this.floater.classList.add('moving');
+		// Make sure we can read the target style (even when refocussing the viewport)
+		this.target.classList.remove('floating-focused');
+		this.target.classList.add('focus');
 
 		this.resolveTargetOutlineStyle(this.target, this.floater);
 		this.repositionElement(this.target, this.floater);
+
+		this.target.classList.add('floating-focused');
 
 		this.handleFloaterMove();
 

@@ -40,9 +40,7 @@
 }
 
 .floating-focused {
-	&:focus {
-		outline-width: 0 !important;
-	}
+	outline-width: 0 !important;
 
 	&::-moz-focus-inner {
 		border: 0 !important;
