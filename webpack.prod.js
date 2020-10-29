@@ -6,9 +6,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const prodConfig = {
 	mode: 'production',
-	plugins: [
-		new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: ['**/*', '!unstyled.js', '!floating-focus.js', '!floating-focus.css'] })
-	]
+	plugins: [ new CleanWebpackPlugin() ]
 };
 
 module.exports = [

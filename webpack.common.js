@@ -1,6 +1,4 @@
-/* global __dirname */
 'use strict';
-const path = require('path');
 
 module.exports = {
 	entry: {
@@ -9,8 +7,6 @@ module.exports = {
 	output: {
 		library: 'floating-focus',
 		libraryTarget: 'umd',
-		path: path.resolve(__dirname, 'dist'),
-		filename: '[name].js',
 	},
 	module: {
 		rules: [
