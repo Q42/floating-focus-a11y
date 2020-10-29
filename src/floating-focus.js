@@ -12,14 +12,6 @@ export default class FloatingFocus {
 		this.addEventListeners();
 	}
 
-	constructFloatingElement() {
-		const element = document.createElement('div');
-		element.classList.add('floating-focus');
-
-		this.container.appendChild(element);
-		return element;
-	}
-
 	addEventListeners() {
 		this.handleKeyDown = this.handleKeyDown.bind(this);
 		this.handleMouseDown = this.handleMouseDown.bind(this);
@@ -65,32 +57,12 @@ export default class FloatingFocus {
 		requestAnimationFrame(() => this.repositionElement(this.target, this.floater));
 	}
 
-	enableFloatingFocus() {
-		this.container.classList.add('floating-focus-enabled');
-		this.floater.classList.add('enabled');
-		clearInterval(this.monitorElementPositionInterval);
-		this.monitorElementPositionInterval = setInterval(this.monitorElementPosition, MONITOR_INTERVAL);
-	}
+	constructFloatingElement() {
+		const element = document.createElement('div');
+		element.classList.add('floating-focus');
 
-	disableFloatingFocus() {
-		this.container.classList.remove('floating-focus-enabled');
-		this.floater.classList.remove('enabled');
-		clearInterval(this.monitorElementPositionInterval);
-	}
-
-	handleFloaterMove() {
-		if (this.floaterIsMoving) {
-			return;
-		}
-
-		this.floaterIsMoving = true;
-
-		const removeMovingClass = () => {
-			this.floater.classList.remove('moving');
-			this.floater.removeEventListener('transitionend', removeMovingClass);
-			this.floaterIsMoving = false;
-		}
-		this.floater.addEventListener('transitionend', removeMovingClass.bind(this));
+		this.container.appendChild(element);
+		return element;
 	}
 
 	handleFocus(e) {
@@ -151,6 +123,34 @@ export default class FloatingFocus {
 
 		this.target.classList.remove('floating-focused');
 		this.target.classList.remove('focus');
+	}
+
+	enableFloatingFocus() {
+		this.container.classList.add('floating-focus-enabled');
+		this.floater.classList.add('enabled');
+		clearInterval(this.monitorElementPositionInterval);
+		this.monitorElementPositionInterval = setInterval(this.monitorElementPosition, MONITOR_INTERVAL);
+	}
+
+	disableFloatingFocus() {
+		this.container.classList.remove('floating-focus-enabled');
+		this.floater.classList.remove('enabled');
+		clearInterval(this.monitorElementPositionInterval);
+	}
+
+	handleFloaterMove() {
+		if (this.floaterIsMoving) {
+			return;
+		}
+
+		this.floaterIsMoving = true;
+
+		const removeMovingClass = () => {
+			this.floater.classList.remove('moving');
+			this.floater.removeEventListener('transitionend', removeMovingClass);
+			this.floaterIsMoving = false;
+		}
+		this.floater.addEventListener('transitionend', removeMovingClass.bind(this));
 	}
 
 	addPixels(pixels1, pixels2) {
