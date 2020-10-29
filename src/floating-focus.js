@@ -17,7 +17,7 @@ export default class FloatingFocus {
 		element.classList.add('floating-focus');
 
 		this.container.appendChild(element);
-		return element; // Floater pun intended.
+		return element;
 	}
 
 	addEventListeners() {
