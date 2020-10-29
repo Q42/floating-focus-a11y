@@ -213,12 +213,10 @@ export default class FloatingFocus {
 		const rect = target.getBoundingClientRect();
 		this.previousTargetRect = rect;
 
-		let { width, height } = rect;
-		width += padding * 2;
-		height += padding * 2;
-
-		const left = rect.left - padding + width/2 + window.scrollX;
-		const top = rect.top - padding + height/2 + window.scrollY;
+		const width = rect.width + padding * 2;
+		const height = rect.height + padding * 2;
+		const left = rect.left + width/2 + window.scrollX - padding;
+		const top = rect.top + height/2 + window.scrollY - padding;
 
 		return {
 			left: `${left}px`,
