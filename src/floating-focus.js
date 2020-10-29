@@ -52,8 +52,8 @@ export default class FloatingFocus {
 	}
 
 	addScrollResizeEvents() {
-		document.addEventListener('scroll', this.handleScrollResize, false);
-		window.addEventListener('resize', this.handleScrollResize, false);
+		document.addEventListener('scroll', this.handleScrollResize, true);
+		window.addEventListener('resize', this.handleScrollResize, true);
 	}
 
 	handleKeyDown(e) {
