@@ -1,7 +1,6 @@
 /* global __dirname */
 'use strict';
 const path = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
 	entry: {
@@ -27,8 +26,5 @@ module.exports = {
 				loader: 'babel-loader'
 			},
 		]
-	},
-	plugins: [
-		new MiniCssExtractPlugin()
-	]
+	}
 };
