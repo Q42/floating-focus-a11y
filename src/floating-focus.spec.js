@@ -21,8 +21,8 @@ describe('Floating focus', () => {
 		expect(document.addEventListener).toHaveBeenNthCalledWith(2, 'mousedown', floatingFocus.handleMouseDown, false);
 		expect(document.addEventListener).toHaveBeenNthCalledWith(3, 'focus', floatingFocus.handleFocus, true);
 		expect(document.addEventListener).toHaveBeenNthCalledWith(4, 'blur', floatingFocus.handleBlur, true);
-		expect(document.addEventListener).toHaveBeenNthCalledWith(5, 'scroll', floatingFocus.handleScrollResize, false);
-		expect(window.addEventListener).toHaveBeenNthCalledWith(6, 'resize', floatingFocus.handleScrollResize, false);
+		expect(document.addEventListener).toHaveBeenNthCalledWith(5, 'scroll', floatingFocus.handleScrollResize, true);
+		expect(window.addEventListener).toHaveBeenNthCalledWith(6, 'resize', floatingFocus.handleScrollResize, true);
 	});
 
 	it('Should not do anything if the keyboard input is not Tab or Arrow keys', () => {
@@ -205,7 +205,7 @@ describe('Floating focus', () => {
 		floatingFocus.handleFocus({target});
 
 		expect(floatingFocus.target).toEqual(target);
-		expect(target.classList.contains('focus')).toBe(false);
+		expect(target.classList.contains('focus')).toBe(true);
 	});
 
 	it('Should resolve the target outline style and reposition the element when handling focus', () => {
@@ -333,8 +333,6 @@ describe('Floating focus', () => {
 		const floatingFocus = new FloatingFocus();
 		const target = document.createElement('div');
 		document.body.appendChild(target);
-		const targetStyle = window.getComputedStyle(target);
-		const padding = targetStyle.outlineOffset || 4;
 
 		const rect = {
 			left: 42,
@@ -349,20 +347,32 @@ describe('Floating focus', () => {
 		floatingFocus.enableFloatingFocus();
 		floatingFocus.handleFocus({target}, true);
 
-		expect(floatingFocus.floater.style.height).toBe(`${rect.height + padding * 2}px`);
+		// Cleanup because transitionend is not called in this setup of jsdom
+		floatingFocus.floater.classList.remove('moving');
+		floatingFocus.floaterIsMoving = false;
+
+		expect(floatingFocus.floater.style.left).toBe(`${rect.left + rect.width / 2}px`);
+		expect(floatingFocus.floater.style.top).toBe(`${rect.top + rect.height / 2}px`);
+
+		jest.advanceTimersByTime(MONITOR_INTERVAL);
+		expect(floatingFocus.floater.classList.contains('moving')).toBe(false);
+
+		jest.advanceTimersByTime(MONITOR_INTERVAL);
+		expect(floatingFocus.floater.classList.contains('moving')).toBe(false);
+
+		rect.left += 42;
+		rect.top += 42;
+
+		expect(floatingFocus.floater.classList.contains('moving')).toBe(false);
+		expect(floatingFocus.floater.style.left).not.toBe(`${rect.left + rect.width / 2}px`);
+		expect(floatingFocus.floater.style.top).not.toBe(`${rect.top + rect.height / 2}px`);
 
 		jest.advanceTimersByTime(MONITOR_INTERVAL);
 
-		expect(target.classList.contains('moving')).toBe(false);
-
-		rect.height = 100;
-
-		expect(floatingFocus.floater.style.height).not.toBe(`${rect.height + padding * 2}px`);
-
-		jest.advanceTimersByTime(MONITOR_INTERVAL);
-
-		expect(floatingFocus.floater.style.height).toBe(`${rect.height + padding * 2}px`);
 		expect(floatingFocus.floater.classList.contains('moving')).toBe(true);
+		expect(floatingFocus.floater.style.left).toBe(`${rect.left + rect.width / 2}px`);
+		expect(floatingFocus.floater.style.top).toBe(`${rect.top + rect.height / 2}px`);
+
 
 	});
 
