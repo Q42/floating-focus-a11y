@@ -12,8 +12,12 @@
 		});
 	</script>
 	<style>
-		.floating-focus-enabled *:focus, .floating-focus-enabled .focus {
-			outline: dodgerblue solid 2px;
+		*:focus {
+			outline: none;
+		}
+
+		.floating-focus-enabled :focus, .floating-focus-enabled .floating-focused {
+			outline: dodgerblue solid 3px;
 			outline-offset: 4px;
 		}
 	</style>

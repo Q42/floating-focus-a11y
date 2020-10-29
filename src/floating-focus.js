@@ -132,22 +132,18 @@ export default class FloatingFocus {
 
 		const focusTargetAttribute = target.getAttribute('focus-target');
 		if (focusTargetAttribute) {
-			const focusTarget = document.querySelector(`#${focusTargetAttribute}`);
-			if (focusTarget) {
-				target = focusTarget;
-				target.classList.add('focus');
-			}
+			target = document.querySelector(`#${focusTargetAttribute}`) || target;
 		}
+
+		this.target = target;
+		this.target.classList.add('floating-focused');
 
 		this.floater.classList.add('visible');
 		this.floater.classList.add('helper');
 		this.floater.classList.add('moving');
 
-		this.resolveTargetOutlineStyle(target, this.floater);
-		this.repositionElement(target, this.floater);
-
-		this.target = target;
-		this.target.classList.add('floating-focused');
+		this.resolveTargetOutlineStyle(this.target, this.floater);
+		this.repositionElement(this.target, this.floater);
 
 		this.handleFloaterMove();
 

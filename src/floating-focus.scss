@@ -45,7 +45,7 @@
 }
 
 .floating-focused {
-	&:focus, &.focus {
+	&:focus {
 		outline-width: 0 !important;
 	}
 
