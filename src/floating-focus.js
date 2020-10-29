@@ -9,13 +9,7 @@ export default class FloatingFocus {
 		this.previousTargetRect = null;
 		this.floaterIsMoving = false;
 
-		this.bindEventListenersToInstance();
-
-		this.addKeydownEvents();
-		this.addMouseDownEvents();
-		this.addFocusEvents();
-		this.addBlurEvents();
-		this.addScrollResizeEvents();
+		this.addEventListeners();
 	}
 
 	constructFloatingElement() {
@@ -26,32 +20,18 @@ export default class FloatingFocus {
 		return element; // Floater pun intended.
 	}
 
-	bindEventListenersToInstance() {
+	addEventListeners() {
 		this.handleKeyDown = this.handleKeyDown.bind(this);
 		this.handleMouseDown = this.handleMouseDown.bind(this);
 		this.handleFocus = this.handleFocus.bind(this);
 		this.handleBlur = this.handleBlur.bind(this);
 		this.handleScrollResize = this.handleScrollResize.bind(this);
 		this.monitorElementPosition = this.monitorElementPosition.bind(this);
-	}
 
-	addKeydownEvents() {
 		document.addEventListener('keydown', this.handleKeyDown, false);
-	}
-
-	addMouseDownEvents() {
 		document.addEventListener('mousedown', this.handleMouseDown, false);
-	}
-
-	addFocusEvents() {
 		document.addEventListener('focus', this.handleFocus, true);
-	}
-
-	addBlurEvents() {
 		document.addEventListener('blur', this.handleBlur, true);
-	}
-
-	addScrollResizeEvents() {
 		document.addEventListener('scroll', this.handleScrollResize, true);
 		window.addEventListener('resize', this.handleScrollResize, true);
 	}
