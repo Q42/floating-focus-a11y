@@ -3,9 +3,7 @@
 
 	border: $border-size solid currentColor;
 	border-radius: 4px;
-	position: fixed;
-	top: 50%;
-	left: 50%;
+	position: absolute;
 	transform: translate(-50%, -50%);
 	opacity: 0;
 
