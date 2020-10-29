@@ -12,6 +12,10 @@
 		});
 	</script>
 	<style>
+		*, *::after, *::before {
+			box-sizing: border-box;
+		}
+
 		*:focus {
 			outline: none;
 		}
@@ -35,7 +39,8 @@
 		}
 
 		body > fieldset,
-		body > input {
+		body > input,
+		body > label {
 			margin: 10px;
 			width: 200px;
 		}
@@ -47,13 +52,31 @@
 			white-space: nowrap;
 		}
 
-		button {
+		fieldset > button {
+			width: 100%;
+		}
+
+		button, input, label {
+			padding: 5px 10px;
+			font: 15px sans-serif;
+		}
+
+		button, label {
 			background: darkgoldenrod;
 			color: white;
 			border-radius: 3px;
 			border: 0;
-			padding: 5px 10px;
-			width: 100%;
+		}
+
+		label {
+			position: relative;
+			overflow: hidden;
+		}
+
+		input[type="file"] {
+			position: absolute;
+			bottom: 200%;
+			right: 200%;
 		}
 	</style>
 </head>
@@ -67,5 +90,10 @@
 	<input type="text">
 	<input type="text">
 	<input type="text">
+
+	<label id="file-upload-label">
+		<input type="file" focus-target="file-upload-label"/>
+		Please upload a file
+	</label>
 </body>
 </html>
