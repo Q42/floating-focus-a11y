@@ -4,16 +4,16 @@
 	transform: translate(-50%, -50%);
 	opacity: 0;
 
-	will-change: top, left;
+	will-change: top, left, width, height, border-width;
 	box-sizing: content-box;
 	pointer-events: none;
 	overflow: hidden;
 	z-index: 9999999999; // It should always be on top of everything, no matter what.
 
 	&.moving {
-		transition-property: opacity, border-radius, left, top, width, height;
+		transition-property: opacity, border-radius, left, top, width, height, border-width;
 		transition-duration: .2s, .1s, .1s, .1s, .1s, .1s, .1s;
-		transition-timing-function: linear, ease-in-out, ease-in-out, ease-in-out, ease-in-out;
+		transition-timing-function: linear, ease, ease, ease, ease, ease, ease;
 	}
 
 	&.enabled.visible {
