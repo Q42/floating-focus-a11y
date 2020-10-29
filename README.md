@@ -1,5 +1,5 @@
-# floating-focus-a11y [![Build Status](https://travis-ci.com/Q42/floating-focus-a11y.svg?token=zMS2E6VVY9WYyfREUSjH&branch=master)](https://travis-ci.com/Q42/floating-focus-a11y) [![npm version](https://badge.fury.io/js/%40q42%2Ffloating-focus-a11y.svg)](https://badge.fury.io/js/%40q42%2Ffloating-focus-a11y)
-A clear, beautiful and easy to implement focus-state solution.
+# Accessible Floating Focus [![Build Status](https://travis-ci.com/Q42/floating-focus-a11y.svg?token=zMS2E6VVY9WYyfREUSjH&branch=master)](https://travis-ci.com/Q42/floating-focus-a11y) [![npm version](https://badge.fury.io/js/%40q42%2Ffloating-focus-a11y.svg)](https://badge.fury.io/js/%40q42%2Ffloating-focus-a11y)
+A clear, beautiful and easy to implement focus-state solution that improves accessibility in an aestetically pleasing way.
 
 ## Installation
 With [npm](https://www.npmjs.com/) installed, run
@@ -34,22 +34,29 @@ Define a default outline and outline-offset. Either of these values can be overr
 }
 ```
 
-It's also possible to define a focus-target attribute on focusable elements:
+### Focus target
+
+Sometimes the actual element that receives focus is hidden from view, one example is a custom input field. In this case it's possible to define a `focus-target` attribute on the focusable element.
+
 ```html
 <input type="file" class="hidden" id="file-upload-123" focus-target="file-upload-123-label"/>
 <label id="file-upload-123-label" for="file-upload-123">Please upload a file</label>
 ```
-This will append the `focus` class to the target element and make the focus box appear around the target element.
 
-<br/>
+This will append the `focus` class to the target element and make the visual focus box appear around the target element.
 
-There is also an option to include the style sheet from the package separately (handy in case of strict "style-src 'self'" CORS headers):
+### Separate stylesheet
+
+For convenience, the styles are included in script by default. There is also an option to include the stylesheet separately. This is particularly useful with strict `style-src 'self'` CORS headers.
+
+Import unstyled dist file:
 ```javascript
 import FloatingFocus from '@q42/floating-focus-a11y/dist/unstyled';
 ```
-And then the floating focus style sheet can be separately imported along the lines of:
+
+The stylesheet can then be separately imported with your favorite CSS preprocessor:
 ```css
-@import '@q42/floating-focus-a11y/dist/styles';
+@import '@q42/floating-focus-a11y/dist/unstyled';
 ```
 
 ## Develop
@@ -64,7 +71,7 @@ $ npm run test
 # bump version
 $ npm version [<newversion> | major | minor | patch | premajor | preminor | prepatch | prerelease | from-git]
 
-# pubplish
+# publish
 $ npm publish
 ```
 
