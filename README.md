@@ -36,7 +36,7 @@ Define a default outline and outline-offset. Either of these values can be overr
 
 ### Focus target
 
-Sometimes the actual element that receives focus is hidden from view, one example is a custom input field. In this case it's possible to define a `focus-target` attribute on the focusable element.
+Sometimes the actual element that receives focus is hidden from view, as is common with a custom input field. In this case it's possible to define a `focus-target` attribute on the focusable element.
 
 ```html
 <input type="file" class="hidden" id="file-upload-123" focus-target="file-upload-123-label"/>
