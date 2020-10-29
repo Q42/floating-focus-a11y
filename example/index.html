@@ -20,11 +20,52 @@
 			outline: dodgerblue solid 3px;
 			outline-offset: 4px;
 		}
+
+		html {
+			height: 100%;
+		}
+
+		body {
+			min-height: 150%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-direction: column;
+			margin: 20px;
+		}
+
+		body > fieldset,
+		body > input {
+			margin: 10px;
+			width: 200px;
+		}
+
+		fieldset {
+			border: 0;
+			padding: 0;
+			overflow: scroll;
+			white-space: nowrap;
+		}
+
+		button {
+			background: darkgoldenrod;
+			color: white;
+			border-radius: 3px;
+			border: 0;
+			padding: 5px 10px;
+			width: 100%;
+		}
 	</style>
 </head>
 <body>
-	<button>Test 1</button>
-	<button>Test 2</button>
-	<button>Test 3</button>
+	<fieldset>
+		<button>Test 1</button>
+		<button>Test 2</button>
+		<button>Test 3</button>
+	</fieldset>
+
+	<input type="text">
+	<input type="text">
+	<input type="text">
 </body>
 </html>
