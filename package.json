@@ -20,7 +20,7 @@
 	"bugs": {
 		"url": "https://github.com/Q42/FloatingFocus/issues"
 	},
-	"main": "dist/floating-focus.js",
+	"main": "dist/styled/floating-focus.js",
 	"typings": "index.d.ts",
 	"scripts": {
 		"build": "npm install --no-optional && npm run test && npm run buildOnly",
@@ -36,6 +36,7 @@
 		"babel-eslint": "^10.0.3",
 		"babel-jest": "^24.9.0",
 		"babel-loader": "^8.0.6",
+		"clean-webpack-plugin": "^3.0.0",
 		"core-js": "^3.2.1",
 		"css-loader": "^3.2.0",
 		"eslint": "^6.3.0",
