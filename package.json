@@ -20,10 +20,11 @@
 	"bugs": {
 		"url": "https://github.com/Q42/FloatingFocus/issues"
 	},
-	"main": "dist/floating-focus.js",
+	"main": "dist/styled/index.js",
 	"typings": "index.d.ts",
 	"scripts": {
-		"build": "npm install --no-optional && npm run test && webpack --config webpack.prod.js",
+		"build": "npm install --no-optional && npm run test && npm run buildOnly",
+		"buildOnly": "parallel-webpack --config webpack.prod.js",
 		"watch": "webpack --config webpack.dev.js",
 		"test": "jest --verbose --coverage",
 		"prepublishOnly": "npm run build"
@@ -43,7 +44,9 @@
 		"jest": "^24.9.0",
 		"jest-cli": "^24.9.0",
 		"jest-transform-stub": "^2.0.0",
+		"mini-css-extract-plugin": "^0.9.0",
 		"node-sass": "^4.13.0",
+		"parallel-webpack": "^2.6.0",
 		"postcss-loader": "^3.0.0",
 		"regenerator-runtime": "^0.13.3",
 		"sass-loader": "^8.0.0",
