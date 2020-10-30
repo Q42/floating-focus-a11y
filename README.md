@@ -1,5 +1,5 @@
 # Accessible Floating Focus [![Build Status](https://travis-ci.com/Q42/floating-focus-a11y.svg?token=zMS2E6VVY9WYyfREUSjH&branch=master)](https://travis-ci.com/Q42/floating-focus-a11y) [![npm version](https://badge.fury.io/js/%40q42%2Ffloating-focus-a11y.svg)](https://badge.fury.io/js/%40q42%2Ffloating-focus-a11y)
-A clear, beautiful and easy to implement focus-state solution that improves accessibility in an aestetically pleasing way.
+A clear, beautiful and easy to implement focus-state solution that improves accessibility in an aesthetically pleasing way.
 
 ## Installation
 With [npm](https://www.npmjs.com/) installed, run
