@@ -213,7 +213,7 @@ export default class FloatingFocus {
 
 		const newRect = this.target.getBoundingClientRect();
 		const prevRect = this.previousTargetRect;
-		if(prevRect.top == newRect.top && prevRect.left == newRect.left) {
+		if (prevRect.top == newRect.top && prevRect.left == newRect.left) {
 			return;
 		}
 
