@@ -372,8 +372,6 @@ describe('Floating focus', () => {
 		expect(floatingFocus.floater.classList.contains('moving')).toBe(true);
 		expect(floatingFocus.floater.style.left).toBe(`${rect.left + rect.width / 2}px`);
 		expect(floatingFocus.floater.style.top).toBe(`${rect.top + rect.height / 2}px`);
-
-
 	});
 
 	describe('addPixels', () => {
