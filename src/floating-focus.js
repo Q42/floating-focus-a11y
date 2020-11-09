@@ -195,8 +195,8 @@ export default class FloatingFocus {
 
 		const width = rect.width + padding * 2;
 		const height = rect.height + padding * 2;
-		const left = rect.left + width/2 + window.scrollX - padding;
-		const top = rect.top + height/2 + window.scrollY - padding;
+		const left = window.scrollX + rect.left - padding + width/2;
+		const top = window.scrollY + rect.top - padding + height/2;
 
 		return {
 			left: `${left}px`,
