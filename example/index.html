@@ -58,7 +58,7 @@
 			width: 100%;
 		}
 
-		button, input, label {
+		button, input, label, p {
 			padding: 5px 10px;
 			font: 15px sans-serif;
 		}
@@ -80,6 +80,20 @@
 			bottom: 200%;
 			right: 200%;
 		}
+
+		.input-warning {
+			margin: 0;
+			background: orangered;
+			color: white;
+			width: 200px;
+			display: none;
+		}
+		.input-warning.show {
+			display: block;
+		}
+		.input-warning.show + input {
+			margin-top: 5px;
+		}
 	</style>
 </head>
 <body>
@@ -97,5 +111,20 @@
 		<input type="file" focus-target="file-upload-label"/>
 		Please upload a file
 	</label>
+
+	<p class="input-warning" id="input-warning">Please input 3 or more characters!</p>
+	<input id="warning-field" type="text">
+
+	<script>
+		const warningField = document.querySelector('#warning-field');
+		const inputWarning = document.querySelector('#input-warning');
+		warningField.addEventListener('input', (bla) => {
+			if (warningField.value && warningField.value.length < 3) {
+				inputWarning.classList.add('show');
+			} else {
+				inputWarning.classList.remove('show');
+			}
+		})
+	</script>
 </body>
 </html>
