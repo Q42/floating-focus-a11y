@@ -211,10 +211,9 @@ export default class FloatingFocus {
 			return;
 		}
 
-		const newRect = this.target.getBoundingClientRect();
-		const prevRect = this.previousTargetRect;
-		const { left, top, width, height } = newRect;
-		const { left: leftPrev, top: topPrev, width: widthPrev, height: heightPrev } = prevRect;
+		const { left, top, width, height } = this.target.getBoundingClientRect();
+		const { left: leftPrev, top: topPrev, width: widthPrev, height: heightPrev } = this.previousTargetRect;
+		
 		if (left === leftPrev && top === topPrev && width === widthPrev && height === heightPrev) {
 			return;
 		}
