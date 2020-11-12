@@ -119,7 +119,7 @@
 	<script>
 		const warningField = document.querySelector('#warning-field');
 		const inputWarningWrapper = document.querySelector('#input-warning-wrapper');
-		warningField.addEventListener('input', (bla) => {
+		warningField.addEventListener('input', function () {
 			if (warningField.value && warningField.value.length < 3) {
 				inputWarningWrapper.classList.add('show');
 			} else {
