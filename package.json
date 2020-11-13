@@ -1,6 +1,6 @@
 {
 	"name": "@q42/floating-focus-a11y",
-	"version": "1.3.0",
+	"version": "1.3.1",
 	"description": "An a11y focus solution that is clear, beautiful and easy to implement.",
 	"keywords": [
 		"a11y",
@@ -57,6 +57,7 @@
 	},
 	"license": "MIT",
 	"files": [
-		"/dist"
+		"/dist",
+		"index.d.ts"
 	]
 }
