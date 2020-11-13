@@ -57,6 +57,7 @@
 	},
 	"license": "MIT",
 	"files": [
-		"/dist"
+		"/dist",
+		"index.d.ts"
 	]
 }
