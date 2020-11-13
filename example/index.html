@@ -5,22 +5,127 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Document</title>
-	<script src="../dist/floating-focus.js"></script>
+	<script src="../dist/styled/index.js"></script>
 	<script>
 		window.addEventListener('load', function() {
 			new window['floating-focus'].default();
 		});
 	</script>
 	<style>
-		.floating-focus-enabled *:focus, .floating-focus-enabled .focus {
-			outline: dodgerblue solid 2px;
+		*, *::after, *::before {
+			box-sizing: border-box;
+		}
+
+		*:focus {
+			outline: none;
+		}
+
+		.floating-focus-enabled :focus, .floating-focus-enabled .focus {
+			outline: dodgerblue solid 3px;
 			outline-offset: 4px;
+		}
+
+		html {
+			height: 100%;
+		}
+
+		body {
+			min-height: 150%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-direction: column;
+			margin: 20px;
+		}
+
+		body > fieldset,
+		body > input,
+		body > label {
+			margin: 10px;
+			width: 200px;
+		}
+
+		fieldset {
+			border: 0;
+			padding: 0;
+			white-space: nowrap;
+			overflow-x: scroll;
+			overflow-y: hidden;
+			padding-bottom: 20px;
+		}
+
+		fieldset > button {
+			width: 100%;
+		}
+
+		button, input, label, p {
+			padding: 5px 10px;
+			font: 15px sans-serif;
+		}
+
+		button, label {
+			background: darkgoldenrod;
+			color: white;
+			border-radius: 3px;
+			border: 0;
+		}
+
+		label {
+			position: relative;
+			overflow: hidden;
+		}
+
+		input[type="file"] {
+			position: absolute;
+			bottom: 200%;
+			right: 200%;
+		}
+
+		.input-warning-wrapper {
+			background: orangered;
+			width: 200px;
+			color: white;
+			max-height: 0;
+			box-sizing: border-box;
+			transition: max-height .25s ease;
+		}
+		.input-warning-wrapper > p {
+			margin: 0;
+		}
+		.input-warning-wrapper.show {
+			max-height: 50px;
 		}
 	</style>
 </head>
 <body>
-	<button>Test 1</button>
-	<button>Test 2</button>
-	<button>Test 3</button>
+	<fieldset>
+		<button>Test 1</button>
+		<button>Test 2</button>
+		<button>Test 3</button>
+	</fieldset>
+
+	<input type="text">
+	<input type="text">
+	<input type="text">
+
+	<label id="file-upload-label">
+		<input type="file" focus-target="file-upload-label"/>
+		Please upload a file
+	</label>
+
+	<div class="input-warning-wrapper" id="input-warning-wrapper"><p>Please input 3 or more characters!</p></div>
+	<input id="warning-field" type="text">
+
+	<script>
+		const warningField = document.querySelector('#warning-field');
+		const inputWarningWrapper = document.querySelector('#input-warning-wrapper');
+		warningField.addEventListener('input', function () {
+			if (warningField.value && warningField.value.length < 3) {
+				inputWarningWrapper.classList.add('show');
+			} else {
+				inputWarningWrapper.classList.remove('show');
+			}
+		})
+	</script>
 </body>
 </html>

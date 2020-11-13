@@ -9,51 +9,23 @@ export default class FloatingFocus {
 		this.previousTargetRect = null;
 		this.floaterIsMoving = false;
 
-		this.bindEventListenersToInstance();
-
-		this.addKeydownEvents();
-		this.addMouseDownEvents();
-		this.addFocusEvents();
-		this.addBlurEvents();
-		this.addScrollResizeEvents();
+		this.addEventListeners();
 	}
 
-	constructFloatingElement() {
-		const element = document.createElement('div');
-		element.classList.add('floating-focus');
-
-		this.container.appendChild(element);
-		return element; // Floater pun intended.
-	}
-
-	bindEventListenersToInstance() {
+	addEventListeners() {
 		this.handleKeyDown = this.handleKeyDown.bind(this);
 		this.handleMouseDown = this.handleMouseDown.bind(this);
 		this.handleFocus = this.handleFocus.bind(this);
 		this.handleBlur = this.handleBlur.bind(this);
 		this.handleScrollResize = this.handleScrollResize.bind(this);
 		this.monitorElementPosition = this.monitorElementPosition.bind(this);
-	}
 
-	addKeydownEvents() {
 		document.addEventListener('keydown', this.handleKeyDown, false);
-	}
-
-	addMouseDownEvents() {
 		document.addEventListener('mousedown', this.handleMouseDown, false);
-	}
-
-	addFocusEvents() {
 		document.addEventListener('focus', this.handleFocus, true);
-	}
-
-	addBlurEvents() {
 		document.addEventListener('blur', this.handleBlur, true);
-	}
-
-	addScrollResizeEvents() {
-		document.addEventListener('scroll', this.handleScrollResize, false);
-		window.addEventListener('resize', this.handleScrollResize, false);
+		document.addEventListener('scroll', this.handleScrollResize, true);
+		window.addEventListener('resize', this.handleScrollResize, true);
 	}
 
 	handleKeyDown(e) {
@@ -85,6 +57,74 @@ export default class FloatingFocus {
 		requestAnimationFrame(() => this.repositionElement(this.target, this.floater));
 	}
 
+	constructFloatingElement() {
+		const element = document.createElement('div');
+		element.classList.add('floating-focus');
+
+		this.container.appendChild(element);
+		return element;
+	}
+
+	handleFocus(e) {
+		let target = e.target;
+
+		if (!this.floater || !this.container) {
+			return;
+		}
+
+		if (target === this.floater) {
+			this.handleBlur();
+			return;
+		}
+
+		if (!this.container.contains(target)) {
+			this.handleBlur();
+			return;
+		}
+
+		this.floater.classList.add('visible');
+		this.floater.classList.add('helper');
+		this.floater.classList.add('moving');
+
+		const focusTargetAttribute = target.getAttribute('focus-target');
+		if (focusTargetAttribute) {
+			target = document.querySelector(`#${focusTargetAttribute}`) || target;
+		}
+
+		this.target = target;
+
+		// Make sure we can read the target style (even when refocussing the viewport)
+		this.target.classList.remove('floating-focused');
+		this.target.classList.add('focus');
+
+		this.resolveTargetOutlineStyle(this.target, this.floater);
+		this.repositionElement(this.target, this.floater);
+
+		this.target.classList.add('floating-focused');
+
+		this.handleFloaterMove();
+
+		clearTimeout(this.helperFadeTimeout);
+		this.helperFadeTimeout = setTimeout(() => this.floater.classList.remove('helper'), HELPER_FADE_TIME);
+	}
+
+	handleBlur() {
+		if (!this.floater) {
+			return;
+		}
+
+		this.floater.classList.remove('visible');
+		this.floater.classList.remove('helper');
+		this.floater.classList.remove('moving');
+
+		if (!this.target) {
+			return;
+		}
+
+		this.target.classList.remove('floating-focused');
+		this.target.classList.remove('focus');
+	}
+
 	enableFloatingFocus() {
 		this.container.classList.add('floating-focus-enabled');
 		this.floater.classList.add('enabled');
@@ -111,65 +151,6 @@ export default class FloatingFocus {
 			this.floaterIsMoving = false;
 		}
 		this.floater.addEventListener('transitionend', removeMovingClass.bind(this));
-	}
-
-	handleFocus(e) {
-		let target = e.target;
-
-		if (!this.floater || !this.container) {
-			return;
-		}
-
-		if (target === this.floater) {
-			this.handleBlur();
-			return;
-		}
-
-		if (!this.container.contains(target)) {
-			this.handleBlur();
-			return;
-		}
-
-		const focusTargetAttribute = target.getAttribute('focus-target');
-		if (focusTargetAttribute) {
-			const focusTarget = document.querySelector(`#${focusTargetAttribute}`);
-			if (focusTarget) {
-				target = focusTarget;
-				target.classList.add('focus');
-			}
-		}
-
-		this.floater.classList.add('visible');
-		this.floater.classList.add('helper');
-		this.floater.classList.add('moving');
-
-		this.resolveTargetOutlineStyle(target, this.floater);
-		this.repositionElement(target, this.floater);
-
-		this.target = target;
-		this.target.classList.add('floating-focused');
-
-		this.handleFloaterMove();
-
-		clearTimeout(this.helperFadeTimeout);
-		this.helperFadeTimeout = setTimeout(() => this.floater.classList.remove('helper'), HELPER_FADE_TIME);
-	}
-
-	handleBlur() {
-		if (!this.floater) {
-			return;
-		}
-
-		this.floater.classList.remove('visible');
-		this.floater.classList.remove('helper');
-		this.floater.classList.remove('moving');
-
-		if (!this.target) {
-			return;
-		}
-
-		this.target.classList.remove('floating-focused');
-		this.target.classList.remove('focus');
 	}
 
 	addPixels(pixels1, pixels2) {
@@ -212,12 +193,10 @@ export default class FloatingFocus {
 		const rect = target.getBoundingClientRect();
 		this.previousTargetRect = rect;
 
-		let { width, height } = rect;
-		width += padding * 2;
-		height += padding * 2;
-
-		const left = rect.left - padding + width / 2;
-		const top = rect.top - padding + height / 2;
+		const width = rect.width + padding * 2;
+		const height = rect.height + padding * 2;
+		const left = window.scrollX + rect.left - padding + width/2;
+		const top = window.scrollY + rect.top - padding + height/2;
 
 		return {
 			left: `${left}px`,
@@ -228,7 +207,14 @@ export default class FloatingFocus {
 	}
 
 	monitorElementPosition() {
-		if (!this.target || !this.previousTargetRect || Object.is(this.previousTargetRect, this.target.getBoundingClientRect())) {
+		if (!this.target || !this.previousTargetRect || this.floaterIsMoving) {
+			return;
+		}
+
+		const { left, top, width, height } = this.target.getBoundingClientRect();
+		const { left: leftPrev, top: topPrev, width: widthPrev, height: heightPrev } = this.previousTargetRect;
+		
+		if (left === leftPrev && top === topPrev && width === widthPrev && height === heightPrev) {
 			return;
 		}
 

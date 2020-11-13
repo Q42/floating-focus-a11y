@@ -10,3 +10,6 @@ coverage/
 
 # Built code
 dist/
+
+# macOS
+.DS_Store
