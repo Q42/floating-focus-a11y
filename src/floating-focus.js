@@ -219,10 +219,8 @@ export default class FloatingFocus {
 			return;
 		}
 
-		const newFloaterPosition = this.getFloaterPosition(this.target);
-
 		this.floater.classList.add('moving');
-		Object.assign(this.floater.style, newFloaterPosition);
+		this.repositionElement(this.target, this.floater);
 		this.handleFloaterMove();
 	}
 
