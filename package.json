@@ -21,7 +21,7 @@
 		"url": "https://github.com/Q42/FloatingFocus/issues"
 	},
 	"main": "dist/styled/index.js",
-	"typings": "index.d.ts",
+	"types": "index.d.ts",
 	"scripts": {
 		"build": "npm install --no-optional && npm run test && npm run buildOnly",
 		"buildOnly": "parallel-webpack --config webpack.prod.js",
