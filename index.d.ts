@@ -1,3 +1,3 @@
-export default class FloatingFocus {
-	constructor(container: Element = document.body) {}
+declare class FloatingFocus {
+	constructor(container: Element);
 }
