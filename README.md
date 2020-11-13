@@ -1,5 +1,5 @@
-# floating-focus-a11y [![Build Status](https://travis-ci.com/Q42/floating-focus-a11y.svg?token=zMS2E6VVY9WYyfREUSjH&branch=master)](https://travis-ci.com/Q42/floating-focus-a11y) [![npm version](https://badge.fury.io/js/%40q42%2Ffloating-focus-a11y.svg)](https://badge.fury.io/js/%40q42%2Ffloating-focus-a11y)
-A clear, beautiful and easy to implement focus-state solution.
+# Accessible Floating Focus [![Build Status](https://travis-ci.com/Q42/floating-focus-a11y.svg?token=zMS2E6VVY9WYyfREUSjH&branch=master)](https://travis-ci.com/Q42/floating-focus-a11y) [![npm version](https://badge.fury.io/js/%40q42%2Ffloating-focus-a11y.svg)](https://badge.fury.io/js/%40q42%2Ffloating-focus-a11y)
+A clear, beautiful and easy to implement focus-state solution that improves accessibility in an aesthetically pleasing way.
 
 ## Installation
 With [npm](https://www.npmjs.com/) installed, run
@@ -16,30 +16,49 @@ new FloatingFocus(containerElement); // Element is an optional parameter which d
 
 Define a default outline and outline-offset. Either of these values can be overruled per component:
 ```css
-// Hide all default focus states if a mouse is used, this is completely optional ofcourse
+/* Hide all default focus states if a mouse is used, this is completely optional ofcourse */
 *:focus {
   outline: none;
 }
 
-// Default outline value, which will be applied to all elements receiving focus, this is a required step.
-.floating-focus-enabled *:focus, .floating-focus-enabled .focus {
+/* Default outline value, which will be applied to all elements receiving focus, this is a required step. */
+/* The .focus class is used by the focus target, more below. */
+.floating-focus-enabled :focus, .floating-focus-enabled .focus {
   outline: dodgerblue solid 2px;
   outline-offset: 8px;
 }
 
-// Give all buttons a green focus state instead of dodgerblue, this is optional in case it's needed.
+/* Give all buttons a green focus state instead of dodgerblue, this is optional in case it's needed. */
 .floating-focus-enabled [type="button"]:focus {
   outline-color: green;
   outline-offset: 4px;
 }
 ```
 
-It's also possible to define a focus-target attribute on focusable elements:
+### Focus target
+
+Sometimes the actual element that receives focus is hidden from view, as is common with a custom input field. In this case it's possible to define a `focus-target` attribute on the focusable element.
+
 ```html
 <input type="file" class="hidden" id="file-upload-123" focus-target="file-upload-123-label"/>
 <label id="file-upload-123-label" for="file-upload-123">Please upload a file</label>
 ```
-This will append the `focus` class to the target element and make the focus box appear around the target element.
+
+This will append the `focus` class to the target element and make the visual focus box appear around the target element, instead of the element that actually has the native focus.
+
+### Separate stylesheet
+
+For convenience, the styles are included in the script by default. There is also an option to include the stylesheet separately. This is particularly useful with strict `style-src 'self'` CORS headers.
+
+Import unstyled dist file:
+```javascript
+import FloatingFocus from '@q42/floating-focus-a11y/dist/unstyled';
+```
+
+The stylesheet can then be separately imported with your favorite CSS preprocessor:
+```css
+@import '@q42/floating-focus-a11y/dist/unstyled';
+```
 
 ## Develop
 ```bash
@@ -53,7 +72,7 @@ $ npm run test
 # bump version
 $ npm version [<newversion> | major | minor | patch | premajor | preminor | prepatch | prerelease | from-git]
 
-# pubplish
+# publish
 $ npm publish
 ```
 

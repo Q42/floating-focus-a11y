@@ -1,24 +1,19 @@
 .floating-focus {
-	$border-size: 2px;
-
-	border: $border-size solid currentColor;
-	border-radius: 4px;
-	position: fixed;
-	top: 50%;
-	left: 50%;
+	border: 0 solid currentColor;
+	position: absolute;
 	transform: translate(-50%, -50%);
 	opacity: 0;
 
-	will-change: top, left;
+	will-change: top, left, width, height;
 	box-sizing: content-box;
 	pointer-events: none;
 	overflow: hidden;
 	z-index: 9999999999; // It should always be on top of everything, no matter what.
 
 	&.moving {
-		transition-property: opacity, border-radius, left, top, width, height;
+		transition-property: opacity, left, top, width, height, border-width, border-radius;
 		transition-duration: .2s, .1s, .1s, .1s, .1s, .1s, .1s;
-		transition-timing-function: linear, ease-in-out, ease-in-out, ease-in-out, ease-in-out;
+		transition-timing-function: linear, ease, ease, ease, ease, ease, ease;
 	}
 
 	&.enabled.visible {
@@ -45,9 +40,7 @@
 }
 
 .floating-focused {
-	&:focus, &.focus {
-		outline-width: 0 !important;
-	}
+	outline-style: none !important;
 
 	&::-moz-focus-inner {
 		border: 0 !important;
