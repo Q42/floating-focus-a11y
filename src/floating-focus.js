@@ -178,6 +178,7 @@ export default class FloatingFocus {
 		Object.assign(floater.style, {
 			color: targetStyle.outlineColor,
 			borderWidth: targetStyle.outlineWidth,
+			borderStyle: targetStyle.outlineStyle,
 			borderBottomLeftRadius: this.getOffsetBorderRadius(targetStyle.borderBottomLeftRadius, padding),
 			borderBottomRightRadius: this.getOffsetBorderRadius(targetStyle.borderBottomRightRadius, padding),
 			borderTopLeftRadius: this.getOffsetBorderRadius(targetStyle.borderTopLeftRadius, padding),
@@ -213,7 +214,7 @@ export default class FloatingFocus {
 
 		const { left, top, width, height } = this.target.getBoundingClientRect();
 		const { left: leftPrev, top: topPrev, width: widthPrev, height: heightPrev } = this.previousTargetRect;
-		
+
 		if (left === leftPrev && top === topPrev && width === widthPrev && height === heightPrev) {
 			return;
 		}
