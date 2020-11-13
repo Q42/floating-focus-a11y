@@ -1,5 +1,5 @@
 declare class FloatingFocus {
-	constructor(container: Element);
+	constructor(container?: Element);
 }
 
 export default FloatingFocus;
