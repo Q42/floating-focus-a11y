@@ -258,6 +258,7 @@ describe('Floating focus', () => {
 		const targetStyle = {
 			outlineOffset: '8px',
 			outlineColor: 'dodgerblue',
+			outlineStyle: 'dashed',
 			outlineWidth: '2px',
 			borderBottomLeftRadius: '0px',
 			borderBottomRightRadius: '0px',
@@ -271,6 +272,7 @@ describe('Floating focus', () => {
 
 		expect(floater.style.color).toBe(targetStyle.outlineColor);
 		expect(floater.style.borderWidth).toBe(targetStyle.outlineWidth);
+		expect(floater.style.borderStyle).toBe(targetStyle.outlineStyle);
 		expect(floater.style.borderBottomLeftRadius).toBe(targetStyle.borderBottomLeftRadius);
 		expect(floater.style.borderBottomRightRadius).toBe(targetStyle.borderBottomRightRadius);
 		expect(floater.style.borderTopLeftRadius).toBe(targetStyle.borderTopLeftRadius);

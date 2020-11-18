@@ -179,6 +179,7 @@ export default class FloatingFocus {
 			padding,
 			color: targetStyle.outlineColor,
 			borderWidth: targetStyle.outlineWidth,
+			borderStyle: targetStyle.outlineStyle,
 			borderBottomLeftRadius: this.getOffsetBorderRadius(targetStyle.borderBottomLeftRadius, padding),
 			borderBottomRightRadius: this.getOffsetBorderRadius(targetStyle.borderBottomRightRadius, padding),
 			borderTopLeftRadius: this.getOffsetBorderRadius(targetStyle.borderTopLeftRadius, padding),
@@ -219,10 +220,8 @@ export default class FloatingFocus {
 			return;
 		}
 
-		const newFloaterPosition = this.getFloaterPosition(this.target);
-
 		this.floater.classList.add('moving');
-		Object.assign(this.floater.style, newFloaterPosition);
+		this.repositionElement(this.target, this.floater);
 		this.handleFloaterMove();
 	}
 
