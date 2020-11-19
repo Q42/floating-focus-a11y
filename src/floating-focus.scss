@@ -46,3 +46,8 @@
 		border: 0 !important;
 	}
 }
+
+.floating-focus-enabled :focus, .floating-focus-enabled .focus {
+	// default 4px padding. Can be overwritten
+	outline-offset: 4px;
+}
