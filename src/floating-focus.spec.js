@@ -307,12 +307,12 @@ describe('Floating focus', () => {
 		expect(floater.style.borderBottomLeftRadius).toBe(targetStyle.borderBottomLeftRadius);
 	});
 
-	it('Should reposition \'floater\' based on target position', () => {
+	it.each([4, 0])('Should reposition \'floater\' based on target position -- outline offset %d', (outlineOffset) => {
 		const floatingFocus = new FloatingFocus();
 		const target = document.createElement('div');
 		const floater = floatingFocus.constructFloatingElement();
 		const targetStyle = window.getComputedStyle(target);
-		targetStyle.outlineOffset = 4;
+		targetStyle.outlineOffset = outlineOffset;
 		const padding = targetStyle.outlineOffset;
 
 		const rect = {
