@@ -73,10 +73,13 @@
 		label {
 			position: relative;
 			overflow: hidden;
-			outline-offset: 0 !important;
-			outline-color: orange !important;
-			outline-width: 2px !important;
-			outline-style: dashed !important;
+		}
+
+		.file-upload-label.focus {
+			outline-offset: 0;
+			outline-color: orange;
+			outline-width: 2px;
+			outline-style: dashed;
 		}
 
 		input[type="file"] {
@@ -112,7 +115,7 @@
 	<input type="text">
 	<input type="text">
 
-	<label id="file-upload-label">
+	<label id="file-upload-label" class="file-upload-label">
 		<input type="file" focus-target="file-upload-label"/>
 		Please upload a file
 	</label>
