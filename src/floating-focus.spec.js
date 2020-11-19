@@ -313,7 +313,6 @@ describe('Floating focus', () => {
 		const floater = floatingFocus.constructFloatingElement();
 		const targetStyle = window.getComputedStyle(target);
 		targetStyle.outlineOffset = outlineOffset;
-		const padding = targetStyle.outlineOffset;
 
 		const rect = {
 			left: 42,
@@ -328,8 +327,8 @@ describe('Floating focus', () => {
 
 		expect(floater.style.left).toBe(`${rect.left + rect.width / 2}px`);
 		expect(floater.style.top).toBe(`${rect.top + rect.height / 2}px`);
-		expect(floater.style.width).toBe(`${rect.width + padding * 2 }px`);
-		expect(floater.style.height).toBe(`${rect.height + padding * 2}px`);
+		expect(floater.style.width).toBe(`${rect.width + outlineOffset * 2 }px`);
+		expect(floater.style.height).toBe(`${rect.height + outlineOffset * 2}px`);
 	});
 
 	it('Should automatically reposition the \'floater\' when the target element\'s position changes', async () => {
