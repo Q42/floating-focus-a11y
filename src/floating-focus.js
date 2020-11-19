@@ -188,7 +188,7 @@ export default class FloatingFocus {
 
 	getFloaterPosition(target) {
 		const targetStyle = window.getComputedStyle(target);
-		const padding = parseFloat(targetStyle.outlineOffset || '4px');
+		const padding = parseFloat(targetStyle.outlineOffset || '0px');
 
 		const rect = target.getBoundingClientRect();
 		this.previousTargetRect = rect;
