@@ -258,6 +258,7 @@ describe('Floating focus', () => {
 		const targetStyle = {
 			outlineOffset: '8px',
 			outlineColor: 'dodgerblue',
+			outlineStyle: 'dashed',
 			outlineWidth: '2px',
 			borderBottomLeftRadius: '0px',
 			borderBottomRightRadius: '0px',
@@ -271,6 +272,7 @@ describe('Floating focus', () => {
 
 		expect(floater.style.color).toBe(targetStyle.outlineColor);
 		expect(floater.style.borderWidth).toBe(targetStyle.outlineWidth);
+		expect(floater.style.borderStyle).toBe(targetStyle.outlineStyle);
 		expect(floater.style.borderBottomLeftRadius).toBe(targetStyle.borderBottomLeftRadius);
 		expect(floater.style.borderBottomRightRadius).toBe(targetStyle.borderBottomRightRadius);
 		expect(floater.style.borderTopLeftRadius).toBe(targetStyle.borderTopLeftRadius);
@@ -305,12 +307,12 @@ describe('Floating focus', () => {
 		expect(floater.style.borderBottomLeftRadius).toBe(targetStyle.borderBottomLeftRadius);
 	});
 
-	it('Should reposition \'floater\' based on target position', () => {
+	it.each([4, 0])('Should reposition \'floater\' based on target position -- outline offset %d', (outlineOffset) => {
 		const floatingFocus = new FloatingFocus();
 		const target = document.createElement('div');
 		const floater = floatingFocus.constructFloatingElement();
 		const targetStyle = window.getComputedStyle(target);
-		const padding = targetStyle.outlineOffset || 4;
+		targetStyle.outlineOffset = outlineOffset;
 
 		const rect = {
 			left: 42,
@@ -325,8 +327,8 @@ describe('Floating focus', () => {
 
 		expect(floater.style.left).toBe(`${rect.left + rect.width / 2}px`);
 		expect(floater.style.top).toBe(`${rect.top + rect.height / 2}px`);
-		expect(floater.style.width).toBe(`${rect.width + padding * 2 }px`);
-		expect(floater.style.height).toBe(`${rect.height + padding * 2}px`);
+		expect(floater.style.width).toBe(`${rect.width + outlineOffset * 2 }px`);
+		expect(floater.style.height).toBe(`${rect.height + outlineOffset * 2}px`);
 	});
 
 	it('Should automatically reposition the \'floater\' when the target element\'s position changes', async () => {
