@@ -312,7 +312,8 @@ describe('Floating focus', () => {
 		const target = document.createElement('div');
 		const floater = floatingFocus.constructFloatingElement();
 		const targetStyle = window.getComputedStyle(target);
-		const padding = targetStyle.outlineOffset || 4;
+		targetStyle.outlineOffset = 4;
+		const padding = targetStyle.outlineOffset;
 
 		const rect = {
 			left: 42,
