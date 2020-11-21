@@ -70,22 +70,24 @@
 			border: 0;
 		}
 
-		label {
-			position: relative;
-			overflow: hidden;
-		}
-
-		.file-upload-label.focus {
+		input[type=text]:nth-of-type(2):focus,
+		input[type=text]:nth-of-type(2).focus {
 			outline-offset: 0;
 			outline-color: orange;
 			outline-width: 2px;
 			outline-style: dashed;
 		}
 
+		label {
+			position: relative;
+			overflow: hidden;
+		}
+
 		input[type="file"] {
 			position: absolute;
-			bottom: 200%;
-			right: 200%;
+			width: 1px;
+			height: 1px;
+			z-index: -1;
 		}
 
 		.input-warning-wrapper {
@@ -96,9 +98,11 @@
 			box-sizing: border-box;
 			transition: max-height .25s ease;
 		}
+
 		.input-warning-wrapper > p {
 			margin: 0;
 		}
+
 		.input-warning-wrapper.show {
 			max-height: 50px;
 		}
