@@ -83,7 +83,6 @@ export default class FloatingFocus {
 		}
 
 		this.floater.classList.add('visible');
-		this.floater.classList.add('helper');
 		this.floater.classList.add('moving');
 
 		const focusTargetAttribute = target.getAttribute('focus-target');
@@ -104,8 +103,7 @@ export default class FloatingFocus {
 
 		this.handleFloaterMove();
 
-		clearTimeout(this.helperFadeTimeout);
-		this.helperFadeTimeout = setTimeout(() => this.floater.classList.remove('helper'), HELPER_FADE_TIME);
+		this.showHelper();
 	}
 
 	handleBlur() {
@@ -136,6 +134,12 @@ export default class FloatingFocus {
 		this.container.classList.remove('floating-focus-enabled');
 		this.floater.classList.remove('enabled');
 		clearInterval(this.monitorElementPositionInterval);
+	}
+
+	showHelper() {
+		this.floater.classList.add('helper');
+		clearTimeout(this.helperFadeTimeout);
+		this.helperFadeTimeout = setTimeout(() => this.floater.classList.remove('helper'), HELPER_FADE_TIME);
 	}
 
 	handleFloaterMove() {
