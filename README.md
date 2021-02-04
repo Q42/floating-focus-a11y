@@ -1,5 +1,14 @@
-# Accessible Floating Focus [![Build Status](https://travis-ci.com/Q42/floating-focus-a11y.svg?token=zMS2E6VVY9WYyfREUSjH&branch=master)](https://travis-ci.com/Q42/floating-focus-a11y) [![npm version](https://badge.fury.io/js/%40q42%2Ffloating-focus-a11y.svg)](https://badge.fury.io/js/%40q42%2Ffloating-focus-a11y)
-A clear, beautiful and easy to implement focus-state solution that improves accessibility in an aesthetically pleasing way.
+<h1 align="center">Floating Focus</h1>
+
+<p align="center">
+	<a href="https://www.npmjs.com/package/panelsnap"><img src="https://travis-ci.com/Q42/floating-focus-a11y.svg?token=zMS2E6VVY9WYyfREUSjH&branch=master" alt="Build status"></a>
+	<a href="https://www.npmjs.com/package/@q42/floating-focus-a11y"><img src="https://img.shields.io/npm/v/@q42/floating-focus-a11y.svg?sanitize=true" alt="Package version"></a>
+	<a href="https://www.npmjs.com/package/@q42/floating-focus-a11y"><img src="https://img.shields.io/npm/l/@q42/floating-focus-a11y.svg?sanitize=true" alt="Package license"></a>
+</p>
+
+<p align="center">
+	A clear, beautiful and easy to implement focus-state solution that improves accessibility in an aesthetically pleasing way.
+</p>
 
 ## Installation
 With [npm](https://www.npmjs.com/) installed, run
