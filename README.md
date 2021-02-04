@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-	A clear, beautiful and easy to implement focus-state solution that improves accessibility in an aesthetically pleasing way.
+	A clear, beautiful and easy to implement focus-state solution that improves accessibility and usability.
 </p>
 
 ---
