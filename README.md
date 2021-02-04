@@ -10,6 +10,8 @@
 	A clear, beautiful and easy to implement focus-state solution that improves accessibility in an aesthetically pleasing way.
 </p>
 
+---
+
 ## Installation
 With [npm](https://www.npmjs.com/) installed, run
 ```bash
