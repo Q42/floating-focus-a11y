@@ -1,7 +1,7 @@
 <h1 align="center">Floating Focus</h1>
 
 <p align="center">
-	<a href="https://www.npmjs.com/package/panelsnap"><img src="https://travis-ci.com/Q42/floating-focus-a11y.svg?token=zMS2E6VVY9WYyfREUSjH&branch=master" alt="Build status"></a>
+	<a href="https://travis-ci.com/Q42/floating-focus-a11y"><img src="https://travis-ci.com/Q42/floating-focus-a11y.svg?token=zMS2E6VVY9WYyfREUSjH&branch=master" alt="Build status"></a>
 	<a href="https://www.npmjs.com/package/@q42/floating-focus-a11y"><img src="https://img.shields.io/npm/v/@q42/floating-focus-a11y.svg?sanitize=true" alt="Package version"></a>
 	<a href="https://www.npmjs.com/package/@q42/floating-focus-a11y"><img src="https://img.shields.io/npm/l/@q42/floating-focus-a11y.svg?sanitize=true" alt="Package license"></a>
 </p>
