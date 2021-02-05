@@ -10,10 +10,12 @@
 	overflow: hidden;
 	z-index: 9999999999; // It should always be on top of everything, no matter what.
 
-	&.moving {
-		transition-property: opacity, left, top, width, height, border-width, border-radius;
-		transition-duration: .2s, .1s, .1s, .1s, .1s, .1s, .1s;
-		transition-timing-function: linear, ease, ease, ease, ease, ease, ease;
+	@media (prefers-reduced-motion: no-preference) {
+		&.moving {
+			transition-property: opacity, left, top, width, height, border-width, border-radius;
+			transition-duration: .2s, .1s, .1s, .1s, .1s, .1s, .1s;
+			transition-timing-function: linear, ease, ease, ease, ease, ease, ease;
+		}
 	}
 
 	&.enabled.visible {
