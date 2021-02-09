@@ -81,7 +81,7 @@ $ npm run test
 ## Deploy
 ```bash
 # bump version
-$ npm version [<newversion> | major | minor | patch | premajor | preminor | prepatch | prerelease | from-git]
+$ npm version [major | minor | patch | premajor | preminor | prepatch | prerelease]
 
 # publish
 $ npm publish
