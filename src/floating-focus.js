@@ -4,22 +4,15 @@ export const HELPER_FADE_TIME = 800;
 export const MONITOR_INTERVAL = 250;
 
 export default class FloatingFocus {
+	previousTargetRect = null;
+	floaterIsMoving = false;
+
 	constructor(container = document.body) {
 		this.container = container;
-		this.previousTargetRect = null;
-		this.floaterIsMoving = false;
-
 		this.addEventListeners();
 	}
 
 	addEventListeners() {
-		this.handleKeyDown = this.handleKeyDown.bind(this);
-		this.handleMouseDown = this.handleMouseDown.bind(this);
-		this.handleFocus = this.handleFocus.bind(this);
-		this.handleBlur = this.handleBlur.bind(this);
-		this.handleScrollResize = this.handleScrollResize.bind(this);
-		this.monitorElementPosition = this.monitorElementPosition.bind(this);
-
 		document.addEventListener('keydown', this.handleKeyDown, false);
 		document.addEventListener('mousedown', this.handleMouseDown, false);
 		document.addEventListener('focus', this.handleFocus, true);
@@ -28,7 +21,7 @@ export default class FloatingFocus {
 		window.addEventListener('resize', this.handleScrollResize, true);
 	}
 
-	handleKeyDown(e) {
+	handleKeyDown = (e) => {
 		// Show animation only upon Tab or Arrow keys press.
 		if (e.keyCode !== 9 && !(e.keyCode > 36 && e.keyCode < 41)) {
 			return;
@@ -41,7 +34,7 @@ export default class FloatingFocus {
 		this.enableFloatingFocus();
 	}
 
-	handleMouseDown() {
+	handleMouseDown = () => {
 		if (!this.floater) {
 			return;
 		}
@@ -49,7 +42,7 @@ export default class FloatingFocus {
 		this.disableFloatingFocus();
 	}
 
-	handleScrollResize() {
+	handleScrollResize = () => {
 		if (!this.floater || !this.target) {
 			return;
 		}
@@ -57,7 +50,7 @@ export default class FloatingFocus {
 		requestAnimationFrame(() => this.repositionElement(this.target, this.floater));
 	}
 
-	constructFloatingElement() {
+	constructFloatingElement = () => {
 		const element = document.createElement('div');
 		element.classList.add('floating-focus');
 
@@ -65,7 +58,7 @@ export default class FloatingFocus {
 		return element;
 	}
 
-	handleFocus(e) {
+	handleFocus = (e) => {
 		let target = e.target;
 
 		if (!this.floater || !this.container) {
@@ -108,7 +101,7 @@ export default class FloatingFocus {
 		this.helperFadeTimeout = setTimeout(() => this.floater.classList.remove('helper'), HELPER_FADE_TIME);
 	}
 
-	handleBlur() {
+	handleBlur = () => {
 		if (!this.floater) {
 			return;
 		}
@@ -217,7 +210,7 @@ export default class FloatingFocus {
 		};
 	}
 
-	monitorElementPosition() {
+	monitorElementPosition = () => {
 		if (!this.target || !this.previousTargetRect || this.floaterIsMoving) {
 			return;
 		}
