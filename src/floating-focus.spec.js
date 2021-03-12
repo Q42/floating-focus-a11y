@@ -93,10 +93,10 @@ describe('Floating focus', () => {
 		await new Promise(resolve => requestAnimationFrame(resolve));
 
 		expect(floatingFocus.repositionElement).not.toHaveBeenCalled();
-	})
+	});
 
 	it('Scrolling should not reposition only when focusing.', async () => {
-		const {container, target} = getTargetAndContainer()
+		const {container, target} = getTargetAndContainer();
 		const floatingFocus = new FloatingFocus(container);
 
 		floatingFocus.handleFocus({target});
@@ -106,10 +106,10 @@ describe('Floating focus', () => {
 		await new Promise(resolve => requestAnimationFrame(resolve));
 
 		expect(floatingFocus.repositionElement).not.toHaveBeenCalled();
-	})
+	});
 
 	it('Scrolling should reposition when focusing if floating is shown.', async () => {
-		const {container, target} = getTargetAndContainer()
+		const {container, target} = getTargetAndContainer();
 		const floatingFocus = new FloatingFocus(container);
 
 		floatingFocus.handleKeyDown({keyCode: 9});
@@ -120,11 +120,11 @@ describe('Floating focus', () => {
 		await new Promise(resolve => requestAnimationFrame(resolve));
 
 		expect(floatingFocus.repositionElement).toHaveBeenCalledTimes(1);
-	})
+	});
 
 
 	it('Scrolling should not reposition after blur.', async () => {
-		const {container, target} = getTargetAndContainer()
+		const {container, target} = getTargetAndContainer();
 		const floatingFocus = new FloatingFocus(container);
 
 		floatingFocus.handleKeyDown({keyCode: 9});
@@ -136,10 +136,10 @@ describe('Floating focus', () => {
 		await new Promise(resolve => requestAnimationFrame(resolve));
 
 		expect(floatingFocus.repositionElement).not.toHaveBeenCalled();
-	})
+	});
 
 	it('Scrolling should not reposition after click.', async () => {
-		const {container, target} = getTargetAndContainer()
+		const {container, target} = getTargetAndContainer();
 		const floatingFocus = new FloatingFocus(container);
 
 		floatingFocus.handleKeyDown({keyCode: 9});
@@ -151,7 +151,7 @@ describe('Floating focus', () => {
 		await new Promise(resolve => requestAnimationFrame(resolve));
 
 		expect(floatingFocus.repositionElement).not.toHaveBeenCalled();
-	})
+	});
 
 	it('Should enable the floating element by setting the appropriate classes', () => {
 		const floatingFocus = new FloatingFocus();
@@ -438,7 +438,7 @@ describe('Floating focus', () => {
 		it('Should return null in case of invalid input', () => {
 
 			const number1 = '10px';
-			const number2 = 'apx'
+			const number2 = 'apx';
 
 			expect(FloatingFocus.addPixels(number1, number2)).toBeNull();
 		});
