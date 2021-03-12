@@ -172,17 +172,25 @@ export default class FloatingFocus {
 	}
 
 	resolveTargetOutlineStyle(target, floater) {
-		const targetStyle = window.getComputedStyle(target);
-		const padding = targetStyle.outlineOffset || null;
+		const {
+			outlineOffset,
+			outlineColor,
+			outlineWidth,
+			outlineStyle,
+			borderBottomLeftRadius,
+			borderBottomRightRadius,
+			borderTopLeftRadius,
+			borderTopRightRadius,
+		} = window.getComputedStyle(target);
 
 		Object.assign(floater.style, {
-			color: targetStyle.outlineColor,
-			borderWidth: targetStyle.outlineWidth,
-			borderStyle: targetStyle.outlineStyle,
-			borderBottomLeftRadius: this.getOffsetBorderRadius(targetStyle.borderBottomLeftRadius, padding),
-			borderBottomRightRadius: this.getOffsetBorderRadius(targetStyle.borderBottomRightRadius, padding),
-			borderTopLeftRadius: this.getOffsetBorderRadius(targetStyle.borderTopLeftRadius, padding),
-			borderTopRightRadius: this.getOffsetBorderRadius(targetStyle.borderTopRightRadius, padding)
+			color: outlineColor,
+			borderWidth: outlineWidth,
+			borderStyle: outlineStyle,
+			borderBottomLeftRadius: this.getOffsetBorderRadius(borderBottomLeftRadius, outlineOffset),
+			borderBottomRightRadius: this.getOffsetBorderRadius(borderBottomRightRadius, outlineOffset),
+			borderTopLeftRadius: this.getOffsetBorderRadius(borderTopLeftRadius, outlineOffset),
+			borderTopRightRadius: this.getOffsetBorderRadius(borderTopRightRadius, outlineOffset)
 		});
 	}
 
