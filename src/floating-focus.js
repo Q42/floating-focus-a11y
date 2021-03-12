@@ -27,10 +27,7 @@ export default class FloatingFocus {
 			return;
 		}
 
-		if (!this.floater) {
-			this.floater = this.constructFloatingElement();
-		}
-
+		this.ensureFloatingElement();
 		this.enableFloatingFocus();
 	}
 
@@ -50,12 +47,13 @@ export default class FloatingFocus {
 		requestAnimationFrame(() => this.repositionElement(this.target, this.floater));
 	}
 
-	constructFloatingElement = () => {
-		const element = document.createElement('div');
-		element.classList.add('floating-focus');
-
-		this.container.appendChild(element);
-		return element;
+	ensureFloatingElement = () => {
+		if (this.floater) {
+			return;
+		}
+		this.floater = document.createElement('div');
+		this.floater.classList.add('floating-focus');
+		this.container.appendChild(this.floater);
 	}
 
 	handleFocus = (e) => {

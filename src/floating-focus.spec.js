@@ -39,38 +39,35 @@ describe('Floating focus', () => {
 		expect(floatingFocus.enableFloatingFocus).toHaveBeenCalled();
 	});
 
-	it('Should construct, append and return a floating element', () => {
+	it('Should construct and append floating element', () => {
 		const floatingFocus = new FloatingFocus();
-		const floatingElement = floatingFocus.constructFloatingElement();
 
-		expect(floatingElement instanceof Element).toBe(true);
-		expect(floatingElement.classList.contains('floating-focus')).toBe(true);
-		expect(floatingElement.tagName).toBe('DIV');
-		expect(document.body.contains(floatingElement)).toBe(true);
+		expect(floatingFocus.floater).toBe(undefined);
+		floatingFocus.ensureFloatingElement();
+
+		expect(floatingFocus.floater instanceof Element).toBe(true);
+		expect(floatingFocus.floater.classList.contains('floating-focus')).toBe(true);
+		expect(floatingFocus.floater.tagName).toBe('DIV');
+		expect(document.body.contains(floatingFocus.floater)).toBe(true);
 	});
 
-	it('Should create the \'floater\' element when it is not present yet', () => {
+	it(`Should not recreate the 'floater' element when it's already present created`, () => {
 		const floatingFocus = new FloatingFocus();
-		floatingFocus.constructFloatingElement = jest.fn().mockImplementation(() => document.createElement('div'));
-
-		expect(floatingFocus.constructFloatingElement).not.toHaveBeenCalled();
-
-		floatingFocus.handleKeyDown({keyCode: 9});
-		expect(floatingFocus.constructFloatingElement).toHaveBeenCalled();
+		floatingFocus.ensureFloatingElement();
+		const floater = floatingFocus.floater;
+		floatingFocus.ensureFloatingElement();
+		expect(floatingFocus.floater).toBe(floater);
 	});
 
-	it('Should not recreate the \'floater\' element when it\'s already present created', () => {
+	it(`Should create the 'floater' element when it is not present yet`, () => {
 		const floatingFocus = new FloatingFocus();
-		floatingFocus.constructFloatingElement = jest.fn().mockImplementation(() => document.createElement('div'));
-
-		expect(floatingFocus.constructFloatingElement).not.toHaveBeenCalled();
-
+		const spy = jest.spyOn(floatingFocus, 'ensureFloatingElement');
+		expect(spy).not.toHaveBeenCalled();
 		floatingFocus.handleKeyDown({keyCode: 9});
-		expect(floatingFocus.constructFloatingElement).toHaveBeenCalled();
-
-		floatingFocus.handleKeyDown({keyCode: 9});
-		expect(floatingFocus.constructFloatingElement).toHaveBeenCalledTimes(1);
+		expect(spy).toHaveBeenCalledTimes(1);
 	});
+
+
 
 	it('Should only try to disable focus it the \'element\' was created before', () => {
 		const floatingFocus = new FloatingFocus();
@@ -143,7 +140,7 @@ describe('Floating focus', () => {
 
 		expect(floatingFocus.resolveTargetOutlineStyle).not.toHaveBeenCalled();
 
-		floatingFocus.floater = floatingFocus.constructFloatingElement();
+		floatingFocus.ensureFloatingElement();
 		floatingFocus.handleFocus({target: floatingFocus.floater}); // Target is the same as 'floater' element
 		floatingFocus.handleFocus({target}); // Target is not inside the body
 
@@ -157,7 +154,7 @@ describe('Floating focus', () => {
 
 	it('Should set all appropriate classes when handling focus', async () => {
 		const floatingFocus = new FloatingFocus();
-		floatingFocus.floater = floatingFocus.constructFloatingElement();
+		floatingFocus.ensureFloatingElement();
 		const target = document.createElement('div');
 		document.body.appendChild(target);
 
@@ -181,7 +178,7 @@ describe('Floating focus', () => {
 
 	it('Should change the target to a different element when the focused element has a focus-target attribute', async () => {
 		const floatingFocus = new FloatingFocus();
-		floatingFocus.floater = floatingFocus.constructFloatingElement();
+		floatingFocus.ensureFloatingElement();
 		const target = document.createElement('div');
 		const focusTarget = document.createElement('div');
 		target.setAttribute('focus-target', 'element123');
@@ -197,7 +194,7 @@ describe('Floating focus', () => {
 
 	it('Should use the existing target if its focus-target cannot be found', () => {
 		const floatingFocus = new FloatingFocus();
-		floatingFocus.floater = floatingFocus.constructFloatingElement();
+		floatingFocus.ensureFloatingElement();
 		const target = document.createElement('div');
 		target.setAttribute('focus-target', 'element123');
 		document.body.appendChild(target);
@@ -212,7 +209,7 @@ describe('Floating focus', () => {
 		const floatingFocus = new FloatingFocus();
 		floatingFocus.resolveTargetOutlineStyle = jest.fn();
 		floatingFocus.repositionElement = jest.fn();
-		floatingFocus.floater = floatingFocus.constructFloatingElement();
+		floatingFocus.ensureFloatingElement();
 		const target = document.createElement('div');
 		document.body.appendChild(target);
 
@@ -231,10 +228,10 @@ describe('Floating focus', () => {
 		expect(floatingFocus.handleBlur()).toBe(undefined);
 	});
 
-	it('Should remove all visibility classes from the \'floater\' when handleBlur is called', () => {
+	it("Should remove all visibility classes from the 'floater' when handleBlur is called", () => {
 		const floatingFocus = new FloatingFocus();
 		floatingFocus.target = document.createElement('div');
-		floatingFocus.floater = floatingFocus.constructFloatingElement();
+		floatingFocus.ensureFloatingElement();
 		floatingFocus.floater.classList.add('visible');
 		floatingFocus.floater.classList.add('helper');
 		floatingFocus.floater.classList.add('moving');
@@ -253,7 +250,8 @@ describe('Floating focus', () => {
 	it('Should resolve and append the outline styling from the target element', () => {
 		const floatingFocus = new FloatingFocus();
 		const target = document.createElement('div');
-		const floater = floatingFocus.constructFloatingElement();
+		floatingFocus.ensureFloatingElement();
+		const floater = floatingFocus.floater;
 
 		const targetStyle = {
 			outlineOffset: '8px',
@@ -282,7 +280,8 @@ describe('Floating focus', () => {
 	it('Should correctly offset the target element\'s border radii by its outline offset', () => {
 		const floatingFocus = new FloatingFocus();
 		const target = document.createElement('div');
-		const floater = floatingFocus.constructFloatingElement();
+		floatingFocus.ensureFloatingElement();
+		const floater = floatingFocus.floater;
 
 		const targetStyle = {
 			outlineOffset: '8px',
@@ -307,10 +306,11 @@ describe('Floating focus', () => {
 		expect(floater.style.borderBottomLeftRadius).toBe(targetStyle.borderBottomLeftRadius);
 	});
 
-	it.each([4, 0])('Should reposition \'floater\' based on target position -- outline offset %d', (outlineOffset) => {
+	it.each([4, 0])(`Should reposition 'floater' based on target position -- outline offset %d`, (outlineOffset) => {
 		const floatingFocus = new FloatingFocus();
 		const target = document.createElement('div');
-		const floater = floatingFocus.constructFloatingElement();
+		floatingFocus.ensureFloatingElement();
+		const floater = floatingFocus.floater;
 		const targetStyle = window.getComputedStyle(target);
 		targetStyle.outlineOffset = outlineOffset;
 
