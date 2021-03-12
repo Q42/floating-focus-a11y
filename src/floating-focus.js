@@ -22,8 +22,8 @@ export default class FloatingFocus {
 	}
 
 	handleKeyDown = (e) => {
-		// Show animation only upon Tab or Arrow keys press.
-		if (e.keyCode !== 9 && !(e.keyCode > 36 && e.keyCode < 41)) {
+
+		if (!isTabOrArrow(e.keyCode)) {
 			return;
 		}
 
@@ -223,4 +223,13 @@ export default class FloatingFocus {
 	repositionElement(target, floater) {
 		Object.assign(floater.style, this.getFloaterPosition(target));
 	}
+}
+
+const KEYCODE_TAB = 9;
+function isTabOrArrow(keyCode) {
+	return keyCode === KEYCODE_TAB || isArrow(keyCode);
+}
+
+function isArrow(keyCode) {
+	return (keyCode > 36 && keyCode < 41);
 }
