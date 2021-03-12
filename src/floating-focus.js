@@ -75,9 +75,7 @@ export default class FloatingFocus {
 			return;
 		}
 
-		this.floater.classList.add('visible');
-		this.floater.classList.add('helper');
-		this.floater.classList.add('moving');
+		this.floater.classList.add('visible', 'helper', 'moving');
 
 		const focusTargetAttribute = target.getAttribute('focus-target');
 		if (focusTargetAttribute) {
@@ -106,16 +104,13 @@ export default class FloatingFocus {
 			return;
 		}
 
-		this.floater.classList.remove('visible');
-		this.floater.classList.remove('helper');
-		this.floater.classList.remove('moving');
+		this.floater.classList.remove('visible', 'helper', 'moving');
 
 		if (!this.target) {
 			return;
 		}
 
-		this.target.classList.remove('floating-focused');
-		this.target.classList.remove('focus');
+		this.target.classList.remove('floating-focused', 'focus');
 	}
 
 	enableFloatingFocus() {
