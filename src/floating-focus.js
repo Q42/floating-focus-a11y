@@ -4,22 +4,15 @@ export const HELPER_FADE_TIME = 800;
 export const MONITOR_INTERVAL = 250;
 
 export default class FloatingFocus {
+	previousTargetRect = null;
+	floaterIsMoving = false;
+
 	constructor(container = document.body) {
 		this.container = container;
-		this.previousTargetRect = null;
-		this.floaterIsMoving = false;
-
 		this.addEventListeners();
 	}
 
 	addEventListeners() {
-		this.handleKeyDown = this.handleKeyDown.bind(this);
-		this.handleMouseDown = this.handleMouseDown.bind(this);
-		this.handleFocus = this.handleFocus.bind(this);
-		this.handleBlur = this.handleBlur.bind(this);
-		this.handleScrollResize = this.handleScrollResize.bind(this);
-		this.monitorElementPosition = this.monitorElementPosition.bind(this);
-
 		document.addEventListener('keydown', this.handleKeyDown, false);
 		document.addEventListener('mousedown', this.handleMouseDown, false);
 		document.addEventListener('focus', this.handleFocus, true);
@@ -28,20 +21,17 @@ export default class FloatingFocus {
 		window.addEventListener('resize', this.handleScrollResize, true);
 	}
 
-	handleKeyDown(e) {
-		// Show animation only upon Tab or Arrow keys press.
-		if (e.keyCode !== 9 && !(e.keyCode > 36 && e.keyCode < 41)) {
+	handleKeyDown = (e) => {
+
+		if (!isTabOrArrow(e.keyCode)) {
 			return;
 		}
 
-		if (!this.floater) {
-			this.floater = this.constructFloatingElement();
-		}
-
+		this.ensureFloatingElement();
 		this.enableFloatingFocus();
 	}
 
-	handleMouseDown() {
+	handleMouseDown = () => {
 		if (!this.floater) {
 			return;
 		}
@@ -49,7 +39,7 @@ export default class FloatingFocus {
 		this.disableFloatingFocus();
 	}
 
-	handleScrollResize() {
+	handleScrollResize = () => {
 		if (!this.floater || !this.target) {
 			return;
 		}
@@ -57,15 +47,16 @@ export default class FloatingFocus {
 		requestAnimationFrame(() => this.repositionElement(this.target, this.floater));
 	}
 
-	constructFloatingElement() {
-		const element = document.createElement('div');
-		element.classList.add('floating-focus');
-
-		this.container.appendChild(element);
-		return element;
+	ensureFloatingElement = () => {
+		if (this.floater) {
+			return;
+		}
+		this.floater = document.createElement('div');
+		this.floater.classList.add('floating-focus');
+		this.container.appendChild(this.floater);
 	}
 
-	handleFocus(e) {
+	handleFocus = (e) => {
 		let target = e.target;
 
 		if (!this.floater || !this.container) {
@@ -82,9 +73,7 @@ export default class FloatingFocus {
 			return;
 		}
 
-		this.floater.classList.add('visible');
-		this.floater.classList.add('helper');
-		this.floater.classList.add('moving');
+		this.floater.classList.add('visible', 'helper', 'moving');
 
 		const focusTargetAttribute = target.getAttribute('focus-target');
 		if (focusTargetAttribute) {
@@ -108,21 +97,19 @@ export default class FloatingFocus {
 		this.helperFadeTimeout = setTimeout(() => this.floater.classList.remove('helper'), HELPER_FADE_TIME);
 	}
 
-	handleBlur() {
+	handleBlur = () => {
 		if (!this.floater) {
 			return;
 		}
 
-		this.floater.classList.remove('visible');
-		this.floater.classList.remove('helper');
-		this.floater.classList.remove('moving');
+		this.floater.classList.remove('visible', 'helper', 'moving');
 
 		if (!this.target) {
 			return;
 		}
 
-		this.target.classList.remove('floating-focused');
-		this.target.classList.remove('focus');
+		this.target.classList.remove('floating-focused', 'focus');
+		this.target = null;
 	}
 
 	enableFloatingFocus() {
@@ -135,6 +122,7 @@ export default class FloatingFocus {
 	disableFloatingFocus() {
 		this.container.classList.remove('floating-focus-enabled');
 		this.floater.classList.remove('enabled');
+		this.target = null;
 		clearInterval(this.monitorElementPositionInterval);
 	}
 
@@ -149,16 +137,16 @@ export default class FloatingFocus {
 			this.floater.classList.remove('moving');
 			this.floater.removeEventListener('transitionend', removeMovingClass);
 			this.floaterIsMoving = false;
-		}
+		};
 		this.floater.addEventListener('transitionend', removeMovingClass.bind(this));
 	}
 
-	addPixels(pixels1, pixels2) {
+	static addPixels(pixels1, pixels2) {
 		const result = parseFloat(pixels1) + parseFloat(pixels2);
 		return !isNaN(result) ? `${result}px` : null;
 	}
 
-	getOffsetBorderRadius(baseRadius, offset) {
+	static getOffsetBorderRadius(baseRadius, offset) {
 		if (!baseRadius || parseFloat(baseRadius) === 0) {
 			return '0px';
 		}
@@ -168,21 +156,32 @@ export default class FloatingFocus {
 
 		offset = Math.max(parseFloat(offset), 0);
 
-		return this.addPixels(baseRadius, offset) || '0px';
+		return FloatingFocus.addPixels(baseRadius, offset) || '0px';
 	}
 
 	resolveTargetOutlineStyle(target, floater) {
-		const targetStyle = window.getComputedStyle(target);
-		const padding = targetStyle.outlineOffset || null;
+		const {
+			outlineOffset,
+			outlineColor,
+			outlineWidth,
+			outlineStyle,
+			borderBottomLeftRadius,
+			borderBottomRightRadius,
+			borderTopLeftRadius,
+			borderTopRightRadius,
+		} = window.getComputedStyle(target);
+
+		const offset = (baseRadius) =>
+			FloatingFocus.getOffsetBorderRadius(baseRadius, outlineOffset);
 
 		Object.assign(floater.style, {
-			color: targetStyle.outlineColor,
-			borderWidth: targetStyle.outlineWidth,
-			borderStyle: targetStyle.outlineStyle,
-			borderBottomLeftRadius: this.getOffsetBorderRadius(targetStyle.borderBottomLeftRadius, padding),
-			borderBottomRightRadius: this.getOffsetBorderRadius(targetStyle.borderBottomRightRadius, padding),
-			borderTopLeftRadius: this.getOffsetBorderRadius(targetStyle.borderTopLeftRadius, padding),
-			borderTopRightRadius: this.getOffsetBorderRadius(targetStyle.borderTopRightRadius, padding)
+			color: outlineColor,
+			borderWidth: outlineWidth,
+			borderStyle: outlineStyle,
+			borderBottomLeftRadius: offset(borderBottomLeftRadius),
+			borderBottomRightRadius: offset(borderBottomRightRadius),
+			borderTopLeftRadius: offset(borderTopLeftRadius),
+			borderTopRightRadius: offset(borderTopRightRadius)
 		});
 	}
 
@@ -206,7 +205,7 @@ export default class FloatingFocus {
 		};
 	}
 
-	monitorElementPosition() {
+	monitorElementPosition = () => {
 		if (!this.target || !this.previousTargetRect || this.floaterIsMoving) {
 			return;
 		}
@@ -226,4 +225,13 @@ export default class FloatingFocus {
 	repositionElement(target, floater) {
 		Object.assign(floater.style, this.getFloaterPosition(target));
 	}
+}
+
+const KEYCODE_TAB = 9;
+function isTabOrArrow(keyCode) {
+	return keyCode === KEYCODE_TAB || isArrow(keyCode);
+}
+
+function isArrow(keyCode) {
+	return (keyCode > 36 && keyCode < 41);
 }
