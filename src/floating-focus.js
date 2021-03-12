@@ -109,6 +109,7 @@ export default class FloatingFocus {
 		}
 
 		this.target.classList.remove('floating-focused', 'focus');
+		this.target = null;
 	}
 
 	enableFloatingFocus() {
@@ -121,6 +122,7 @@ export default class FloatingFocus {
 	disableFloatingFocus() {
 		this.container.classList.remove('floating-focus-enabled');
 		this.floater.classList.remove('enabled');
+		this.target = null;
 		clearInterval(this.monitorElementPositionInterval);
 	}
 
