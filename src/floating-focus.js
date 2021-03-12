@@ -153,12 +153,12 @@ export default class FloatingFocus {
 		this.floater.addEventListener('transitionend', removeMovingClass.bind(this));
 	}
 
-	addPixels(pixels1, pixels2) {
+	static addPixels(pixels1, pixels2) {
 		const result = parseFloat(pixels1) + parseFloat(pixels2);
 		return !isNaN(result) ? `${result}px` : null;
 	}
 
-	getOffsetBorderRadius(baseRadius, offset) {
+	static getOffsetBorderRadius(baseRadius, offset) {
 		if (!baseRadius || parseFloat(baseRadius) === 0) {
 			return '0px';
 		}
@@ -168,7 +168,7 @@ export default class FloatingFocus {
 
 		offset = Math.max(parseFloat(offset), 0);
 
-		return this.addPixels(baseRadius, offset) || '0px';
+		return FloatingFocus.addPixels(baseRadius, offset) || '0px';
 	}
 
 	resolveTargetOutlineStyle(target, floater) {
@@ -187,10 +187,10 @@ export default class FloatingFocus {
 			color: outlineColor,
 			borderWidth: outlineWidth,
 			borderStyle: outlineStyle,
-			borderBottomLeftRadius: this.getOffsetBorderRadius(borderBottomLeftRadius, outlineOffset),
-			borderBottomRightRadius: this.getOffsetBorderRadius(borderBottomRightRadius, outlineOffset),
-			borderTopLeftRadius: this.getOffsetBorderRadius(borderTopLeftRadius, outlineOffset),
-			borderTopRightRadius: this.getOffsetBorderRadius(borderTopRightRadius, outlineOffset)
+			borderBottomLeftRadius: FloatingFocus.getOffsetBorderRadius(borderBottomLeftRadius, outlineOffset),
+			borderBottomRightRadius: FloatingFocus.getOffsetBorderRadius(borderBottomRightRadius, outlineOffset),
+			borderTopLeftRadius: FloatingFocus.getOffsetBorderRadius(borderTopLeftRadius, outlineOffset),
+			borderTopRightRadius: FloatingFocus.getOffsetBorderRadius(borderTopRightRadius, outlineOffset)
 		});
 	}
 

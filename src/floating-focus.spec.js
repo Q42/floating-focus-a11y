@@ -378,21 +378,19 @@ describe('Floating focus', () => {
 
 	describe('addPixels', () => {
 		it('Should correctly add up pixel amounts as if it\'s a normal calculation', () => {
-			const floatingFocus = new FloatingFocus();
 
 			const number1 = Math.random() * 10;
 			const number2 = Math.random() * 10;
 
-			expect(floatingFocus.addPixels(`${number1}px`, `${number2}px`)).toBe(`${number1 + number2}px`);
+			expect(FloatingFocus.addPixels(`${number1}px`, `${number2}px`)).toBe(`${number1 + number2}px`);
 		});
 
 		it('Should return null in case of invalid input', () => {
-			const floatingFocus = new FloatingFocus();
 
 			const number1 = '10px';
 			const number2 = 'apx'
 
-			expect(floatingFocus.addPixels(number1, number2)).toBeNull();
+			expect(FloatingFocus.addPixels(number1, number2)).toBeNull();
 		});
 	});
 });
