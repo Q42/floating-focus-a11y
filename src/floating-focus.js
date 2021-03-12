@@ -183,14 +183,17 @@ export default class FloatingFocus {
 			borderTopRightRadius,
 		} = window.getComputedStyle(target);
 
+		const offset = (baseRadius) =>
+			FloatingFocus.getOffsetBorderRadius(baseRadius, outlineOffset);
+
 		Object.assign(floater.style, {
 			color: outlineColor,
 			borderWidth: outlineWidth,
 			borderStyle: outlineStyle,
-			borderBottomLeftRadius: FloatingFocus.getOffsetBorderRadius(borderBottomLeftRadius, outlineOffset),
-			borderBottomRightRadius: FloatingFocus.getOffsetBorderRadius(borderBottomRightRadius, outlineOffset),
-			borderTopLeftRadius: FloatingFocus.getOffsetBorderRadius(borderTopLeftRadius, outlineOffset),
-			borderTopRightRadius: FloatingFocus.getOffsetBorderRadius(borderTopRightRadius, outlineOffset)
+			borderBottomLeftRadius: offset(borderBottomLeftRadius),
+			borderBottomRightRadius: offset(borderBottomRightRadius),
+			borderTopLeftRadius: offset(borderTopLeftRadius),
+			borderTopRightRadius: offset(borderTopRightRadius)
 		});
 	}
 
