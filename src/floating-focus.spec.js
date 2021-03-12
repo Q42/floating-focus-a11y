@@ -85,23 +85,73 @@ describe('Floating focus', () => {
 		expect(floatingFocus.disableFloatingFocus).toHaveBeenCalled();
 	});
 
-	it('Should only reposition if a target and \'floater\' was set, when scrolling or resizing', async () => {
+	it('Scrolling should not reposition by default.', async () => {
 		const floatingFocus = new FloatingFocus();
+
 		floatingFocus.repositionElement = jest.fn();
-
 		floatingFocus.handleScrollResize();
-
-		expect(floatingFocus.repositionElement).not.toHaveBeenCalled();
-
-		floatingFocus.floater = document.createElement('div');
-		floatingFocus.target = document.createElement('div');
-
-		floatingFocus.handleScrollResize();
-
 		await new Promise(resolve => requestAnimationFrame(resolve));
 
-		expect(floatingFocus.repositionElement).toHaveBeenCalled();
-	});
+		expect(floatingFocus.repositionElement).not.toHaveBeenCalled();
+	})
+
+	it('Scrolling should not reposition only when focusing.', async () => {
+		const {container, target} = getTargetAndContainer()
+		const floatingFocus = new FloatingFocus(container);
+
+		floatingFocus.handleFocus({target});
+
+		floatingFocus.repositionElement = jest.fn();
+		floatingFocus.handleScrollResize();
+		await new Promise(resolve => requestAnimationFrame(resolve));
+
+		expect(floatingFocus.repositionElement).not.toHaveBeenCalled();
+	})
+
+	it('Scrolling should reposition when focusing if floating is shown.', async () => {
+		const {container, target} = getTargetAndContainer()
+		const floatingFocus = new FloatingFocus(container);
+
+		floatingFocus.handleKeyDown({keyCode: 9});
+		floatingFocus.handleFocus({target});
+
+		floatingFocus.repositionElement = jest.fn();
+		floatingFocus.handleScrollResize();
+		await new Promise(resolve => requestAnimationFrame(resolve));
+
+		expect(floatingFocus.repositionElement).toHaveBeenCalledTimes(1);
+	})
+
+
+	it('Scrolling should not reposition after blur.', async () => {
+		const {container, target} = getTargetAndContainer()
+		const floatingFocus = new FloatingFocus(container);
+
+		floatingFocus.handleKeyDown({keyCode: 9});
+		floatingFocus.handleFocus({target});
+		floatingFocus.handleBlur({target});
+
+		floatingFocus.repositionElement = jest.fn();
+		floatingFocus.handleScrollResize();
+		await new Promise(resolve => requestAnimationFrame(resolve));
+
+		expect(floatingFocus.repositionElement).not.toHaveBeenCalled();
+	})
+
+	it('Scrolling should not reposition after click.', async () => {
+		const {container, target} = getTargetAndContainer()
+		const floatingFocus = new FloatingFocus(container);
+
+		floatingFocus.handleKeyDown({keyCode: 9});
+		floatingFocus.handleFocus({target});
+		floatingFocus.handleMouseDown({target});
+
+		floatingFocus.repositionElement = jest.fn();
+		floatingFocus.handleScrollResize();
+		await new Promise(resolve => requestAnimationFrame(resolve));
+
+		expect(floatingFocus.repositionElement).not.toHaveBeenCalled();
+	})
 
 	it('Should enable the floating element by setting the appropriate classes', () => {
 		const floatingFocus = new FloatingFocus();
@@ -394,3 +444,11 @@ describe('Floating focus', () => {
 		});
 	});
 });
+
+function getTargetAndContainer () {
+	const container = document.createElement('div');
+	const target = document.createElement('div');
+	container.appendChild(target);
+
+	return {container, target};
+}
