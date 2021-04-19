@@ -8,6 +8,11 @@
 
 <p align="center">
 	A clear, beautiful and easy to implement focus-state solution that improves accessibility and usability.
+	
+<a href="https://engineering.q42.nl/floating-focus/">https://engineering.q42.nl/floating-focus/</a>
+
+![Drag Racing](https://thumbs.gfycat.com/GrimLoneKakapo-size_restricted.gif)
+
 </p>
 
 ---
