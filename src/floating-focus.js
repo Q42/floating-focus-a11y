@@ -83,8 +83,6 @@ export default class FloatingFocus {
 		}
 
 		this.floater.classList.add('visible');
-		this.floater.classList.add('helper');
-		this.floater.classList.add('moving');
 
 		const focusTargetAttribute = target.getAttribute('focus-target');
 		if (focusTargetAttribute) {
@@ -100,12 +98,10 @@ export default class FloatingFocus {
 		this.resolveTargetOutlineStyle(this.target, this.floater);
 		this.repositionElement(this.target, this.floater);
 
+		// Override default styles after styling the floater
 		this.target.classList.add('floating-focused');
 
-		this.handleFloaterMove();
-
-		clearTimeout(this.helperFadeTimeout);
-		this.helperFadeTimeout = setTimeout(() => this.floater.classList.remove('helper'), HELPER_FADE_TIME);
+		this.showHelper();
 	}
 
 	handleBlur() {
@@ -138,19 +134,10 @@ export default class FloatingFocus {
 		clearInterval(this.monitorElementPositionInterval);
 	}
 
-	handleFloaterMove() {
-		if (this.floaterIsMoving) {
-			return;
-		}
-
-		this.floaterIsMoving = true;
-
-		const removeMovingClass = () => {
-			this.floater.classList.remove('moving');
-			this.floater.removeEventListener('transitionend', removeMovingClass);
-			this.floaterIsMoving = false;
-		}
-		this.floater.addEventListener('transitionend', removeMovingClass.bind(this));
+	showHelper() {
+		this.floater.classList.add('helper');
+		clearTimeout(this.helperFadeTimeout);
+		this.helperFadeTimeout = setTimeout(() => this.floater.classList.remove('helper'), HELPER_FADE_TIME);
 	}
 
 	addPixels(pixels1, pixels2) {
@@ -218,9 +205,7 @@ export default class FloatingFocus {
 			return;
 		}
 
-		this.floater.classList.add('moving');
 		this.repositionElement(this.target, this.floater);
-		this.handleFloaterMove();
 	}
 
 	repositionElement(target, floater) {
