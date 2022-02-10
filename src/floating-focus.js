@@ -28,6 +28,15 @@ export default class FloatingFocus {
 		window.addEventListener('resize', this.handleScrollResize, true);
 	}
 
+	removeEventListeners(){
+		document.removeEventListener('keydown', this.handleKeyDown);
+		document.removeEventListener('mousedown', this.handleMouseDown);
+		document.removeEventListener('focus', this.handleFocus);
+		document.removeEventListener('blur', this.handleBlur);
+		document.removeEventListener('scroll', this.handleScrollResize);
+		window.removeEventListener('resize', this.handleScrollResize);
+	}
+
 	handleKeyDown(e) {
 		// Show animation only upon Tab or Arrow keys press.
 		if (e.keyCode !== 9 && !(e.keyCode > 36 && e.keyCode < 41)) {
@@ -225,5 +234,10 @@ export default class FloatingFocus {
 
 	repositionElement(target, floater) {
 		Object.assign(floater.style, this.getFloaterPosition(target));
+	}
+
+	remove(){
+		this.removeEventListeners()
+		this.floater && this.floater.remove()
 	}
 }

@@ -376,6 +376,23 @@ describe('Floating focus', () => {
 		expect(floatingFocus.floater.style.top).toBe(`${rect.top + rect.height / 2}px`);
 	});
 
+	it('Should correctly remove floater and event listeners', () => {
+		const floatingFocus = new FloatingFocus();
+
+		floatingFocus.floater = floatingFocus.constructFloatingElement();
+
+		floatingFocus.remove();
+
+		expect(document.removeEventListener).toHaveBeenNthCalledWith(1, 'keydown', floatingFocus.handleKeyDown);
+		expect(document.removeEventListener).toHaveBeenNthCalledWith(2, 'mousedown', floatingFocus.handleMouseDown);
+		expect(document.removeEventListener).toHaveBeenNthCalledWith(3, 'focus', floatingFocus.handleFocus);
+		expect(document.removeEventListener).toHaveBeenNthCalledWith(4, 'blur', floatingFocus.handleBlur);
+		expect(document.removeEventListener).toHaveBeenNthCalledWith(5, 'scroll', floatingFocus.handleScrollResize);
+		expect(window.removeEventListener).toHaveBeenNthCalledWith(6, 'resize', floatingFocus.handleScrollResize);
+
+		expect(document.body.contains(floatingFocus.floater)).toBe(false);
+	});
+
 	describe('addPixels', () => {
 		it('Should correctly add up pixel amounts as if it\'s a normal calculation', () => {
 			const floatingFocus = new FloatingFocus();
