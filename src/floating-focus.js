@@ -28,7 +28,7 @@ export default class FloatingFocus {
 		window.addEventListener('resize', this.handleScrollResize, true);
 	}
 
-	removeEventListeners(){
+	removeEventListeners() {
 		document.removeEventListener('keydown', this.handleKeyDown);
 		document.removeEventListener('mousedown', this.handleMouseDown);
 		document.removeEventListener('focus', this.handleFocus);
