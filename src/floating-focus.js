@@ -236,8 +236,8 @@ export default class FloatingFocus {
 		Object.assign(floater.style, this.getFloaterPosition(target));
 	}
 
-	remove(){
-		this.removeEventListeners()
-		this.floater && this.floater.remove()
+	remove() {
+		this.removeEventListeners();
+		this.floater && this.floater.remove();
 	}
 }
