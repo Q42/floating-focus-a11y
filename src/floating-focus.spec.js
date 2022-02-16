@@ -376,21 +376,32 @@ describe('Floating focus', () => {
 		expect(floatingFocus.floater.style.top).toBe(`${rect.top + rect.height / 2}px`);
 	});
 
-	it('Should correctly remove floater and event listeners', () => {
+	it('Should correctly deactivate and activate floater', () => {
 		const floatingFocus = new FloatingFocus();
 
 		floatingFocus.floater = floatingFocus.constructFloatingElement();
 
-		floatingFocus.remove();
+		floatingFocus.deactivate();
 
-		expect(document.removeEventListener).toHaveBeenNthCalledWith(1, 'keydown', floatingFocus.handleKeyDown);
-		expect(document.removeEventListener).toHaveBeenNthCalledWith(2, 'mousedown', floatingFocus.handleMouseDown);
-		expect(document.removeEventListener).toHaveBeenNthCalledWith(3, 'focus', floatingFocus.handleFocus);
-		expect(document.removeEventListener).toHaveBeenNthCalledWith(4, 'blur', floatingFocus.handleBlur);
-		expect(document.removeEventListener).toHaveBeenNthCalledWith(5, 'scroll', floatingFocus.handleScrollResize);
-		expect(window.removeEventListener).toHaveBeenNthCalledWith(6, 'resize', floatingFocus.handleScrollResize);
+		expect(document.removeEventListener).toHaveBeenCalledWith('keydown', floatingFocus.handleKeyDown);
+		expect(document.removeEventListener).toHaveBeenCalledWith('mousedown', floatingFocus.handleMouseDown);
+		expect(document.removeEventListener).toHaveBeenCalledWith('focus', floatingFocus.handleFocus);
+		expect(document.removeEventListener).toHaveBeenCalledWith('blur', floatingFocus.handleBlur);
+		expect(document.removeEventListener).toHaveBeenCalledWith('scroll', floatingFocus.handleScrollResize);
+		expect(window.removeEventListener).toHaveBeenCalledWith('resize', floatingFocus.handleScrollResize);
 
 		expect(document.body.contains(floatingFocus.floater)).toBe(false);
+
+		floatingFocus.activate();
+
+		expect(document.addEventListener).toHaveBeenCalledWith('keydown', floatingFocus.handleKeyDown, false);
+		expect(document.addEventListener).toHaveBeenCalledWith('mousedown', floatingFocus.handleMouseDown, false);
+		expect(document.addEventListener).toHaveBeenCalledWith('focus', floatingFocus.handleFocus, true);
+		expect(document.addEventListener).toHaveBeenCalledWith('blur', floatingFocus.handleBlur, true);
+		expect(document.addEventListener).toHaveBeenCalledWith('scroll', floatingFocus.handleScrollResize, true);
+		expect(window.addEventListener).toHaveBeenCalledWith('resize', floatingFocus.handleScrollResize, true);
+
+		expect(document.body.contains(floatingFocus.floater)).toBe(true);
 	});
 
 	describe('addPixels', () => {
