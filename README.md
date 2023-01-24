@@ -77,6 +77,10 @@ The stylesheet can then be separately imported with your favorite CSS preprocess
 @import '@q42/floating-focus-a11y/dist/unstyled';
 ```
 
+### Extra cautions
+
+- Watch out with CSS transitions: if an element that will be focused has a `transition` for `outline-color` / `outline-width` / `outline-style` (including `all` !), the floating focus will not display correctly on that element.
+
 ## Develop
 ```bash
 $ npm run build
