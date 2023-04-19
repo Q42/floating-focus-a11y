@@ -1,15 +1,18 @@
-import FloatingFocus, { MONITOR_INTERVAL, HELPER_FADE_TIME } from './floating-focus';
+import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
+import FloatingFocus, { HELPER_FADE_TIME, MONITOR_INTERVAL } from './floating-focus';
 
 describe('Floating focus', () => {
 
 	beforeEach(() => {
 		jest.useFakeTimers();
+		jest.spyOn(window, 'requestAnimationFrame').mockImplementation(cb => cb());
 	});
 
 	afterEach(() => {
 		document.body.className = '';
 		document.body.innerHTML = '';
 		jest.clearAllTimers();
+		window.requestAnimationFrame.mockRestore();
 	});
 
 	it('Should bind all required event listeners on construction', () => {

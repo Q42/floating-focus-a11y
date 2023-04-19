@@ -1,4 +1,5 @@
 'use strict';
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
 	entry: {
@@ -13,15 +14,15 @@ module.exports = {
 		rules: [
 			{
 				test: /\.js$/,
-				loader: 'eslint-loader',
-				exclude: /node_modules/,
-				enforce: 'pre'
-			},
-			{
-				test: /\.js$/,
 				exclude: /node_modules|dist/,
 				loader: 'babel-loader'
 			},
 		]
-	}
+	},
+	plugins: [
+		new ESLintPlugin({
+			files: 'src/**/*.js',
+			failOnWarning: true
+		})
+	]
 };

@@ -2,6 +2,7 @@
 const path = require('path');
 
 module.exports = {
+	testEnvironment: 'jsdom',
 	clearMocks: true,
 	moduleFileExtensions: ["js", "jsx", "json"],
 	setupFilesAfterEnv: ['<rootDir>/__mocks__/generalMocks'],
@@ -12,5 +13,7 @@ module.exports = {
 		"^.+\\.jsx?$": "babel-jest"
 	},
 	transformIgnorePatterns: ["/node_modules/"],
-	testURL: "http://localhost/",
+	testEnvironmentOptions:{
+		url: "http://localhost/"
+	}
 };
