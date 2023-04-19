@@ -23,8 +23,8 @@
 	"main": "dist/styled/index.js",
 	"types": "index.d.ts",
 	"scripts": {
-		"build": "npm install --no-optional && npm run test && npm run buildOnly",
-		"buildOnly": "webpack --config webpack.prod.js",
+		"ci": "npm ci --omit=optional",
+		"build": "webpack --config webpack.prod.js",
 		"watch": "webpack --config webpack.dev.js",
 		"test": "jest --verbose --coverage",
 		"prepublishOnly": "npm run build"
@@ -61,5 +61,8 @@
 	"files": [
 		"/dist",
 		"index.d.ts"
-	]
+	],
+	"volta": {
+		"node": "20.0.0"
+	}
 }
