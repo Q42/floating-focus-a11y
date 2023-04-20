@@ -1,6 +1,9 @@
 {
   "parser": "@babel/eslint-parser",
-  "extends": ["eslint:recommended", "plugin:prettier/recommended"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:prettier/recommended"
+  ],
   "env": {
     "browser": true,
     "es6": true,
@@ -12,6 +15,7 @@
     "module": true
   },
   "rules": {
-    "no-console": 0
+    "no-console": 0,
+    "indent": "off"
   }
 }
