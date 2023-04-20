@@ -1,54 +1,53 @@
 .floating-focus {
-	border: 0 solid currentColor;
-	position: absolute;
-	transform: translate(-50%, -50%);
-	opacity: 0;
+  border: 0 solid currentColor;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  will-change: top, left, width, height;
+  box-sizing: content-box;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 9999999999; // It should always be on top of everything, no matter what.
 
-	will-change: top, left, width, height;
-	box-sizing: content-box;
-	pointer-events: none;
-	overflow: hidden;
-	z-index: 9999999999; // It should always be on top of everything, no matter what.
+  &.moving {
+    transition-property: opacity, left, top, width, height, border-width, border-radius;
+    transition-duration: 0.2s, 0.1s, 0.1s, 0.1s, 0.1s, 0.1s, 0.1s;
+    transition-timing-function: linear, ease, ease, ease, ease, ease, ease;
+  }
 
-	&.moving {
-		transition-property: opacity, left, top, width, height, border-width, border-radius;
-		transition-duration: .2s, .1s, .1s, .1s, .1s, .1s, .1s;
-		transition-timing-function: linear, ease, ease, ease, ease, ease, ease;
-	}
+  @media (prefers-reduced-motion: reduce) {
+    &.moving {
+      transition: none;
+    }
+  }
 
-	@media (prefers-reduced-motion: reduce) {
-		&.moving {
-			transition: none;
-		}
-	}
+  &.enabled.visible {
+    opacity: 1;
+  }
 
-	&.enabled.visible {
-		opacity: 1;
-	}
+  &::after {
+    content: '';
+    background: currentColor;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
 
-	&::after {
-		content: '';
-		background: currentColor;
-		position: absolute;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		left: 0;
-		opacity: 0;
+    transition: opacity 0.2s linear;
+  }
 
-		transition: opacity .2s linear;
-	}
-
-	&.helper::after {
-		transition-duration: .1s;
-		opacity: .3;
-	}
+  &.helper::after {
+    transition-duration: 0.1s;
+    opacity: 0.3;
+  }
 }
 
 .floating-focused {
-	outline-style: none !important;
+  outline-style: none !important;
 
-	&::-moz-focus-inner {
-		border: 0 !important;
-	}
+  &::-moz-focus-inner {
+    border: 0 !important;
+  }
 }
