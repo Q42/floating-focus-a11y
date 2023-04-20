@@ -11,7 +11,7 @@ module.exports = (api) => {
 					modules: isTest ? 'commonjs' : false,
 					loose: true,
 					corejs: 3,
-					useBuiltIns: 'usage',
+					useBuiltIns: 'entry',
 					exclude: ['es.regexp.to-string'],
 				},
 			],
