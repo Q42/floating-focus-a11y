@@ -27,7 +27,7 @@
 		"build": "webpack --config webpack.prod.js",
 		"watch": "webpack --config webpack.dev.js",
 		"lint:check": "prettier --check ./src/**/*.{scss,js}",
-		"lint:fix": "prettier --fix ./src/**/*.{scss,js}",
+		"lint:fix": "prettier --write ./src/**/*.{scss,js}",
 		"test": "jest --verbose --coverage",
 		"prepublishOnly": "npm run lint:check && npm run test && npm run build"
 	},
