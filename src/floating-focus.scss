@@ -10,8 +10,7 @@
 	z-index: 9999999999; // It should always be on top of everything, no matter what.
 
 	&.moving {
-		transition-property: opacity, left, top, width, height, border-width,
-			border-radius;
+		transition-property: opacity, left, top, width, height, border-width, border-radius;
 		transition-duration: 0.2s, 0.1s, 0.1s, 0.1s, 0.1s, 0.1s, 0.1s;
 		transition-timing-function: linear, ease, ease, ease, ease, ease, ease;
 	}

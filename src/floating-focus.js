@@ -54,9 +54,7 @@ export default class FloatingFocus {
 			return
 		}
 
-		requestAnimationFrame(() =>
-			this.repositionElement(this.target, this.floater)
-		)
+		requestAnimationFrame(() => this.repositionElement(this.target, this.floater))
 	}
 
 	constructFloatingElement() {
@@ -90,8 +88,7 @@ export default class FloatingFocus {
 
 		const focusTargetAttribute = target.getAttribute('focus-target')
 		if (focusTargetAttribute) {
-			target =
-				document.querySelector(`#${focusTargetAttribute}`) || target
+			target = document.querySelector(`#${focusTargetAttribute}`) || target
 		}
 
 		this.target = target
@@ -108,10 +105,7 @@ export default class FloatingFocus {
 		this.handleFloaterMove()
 
 		clearTimeout(this.helperFadeTimeout)
-		this.helperFadeTimeout = setTimeout(
-			() => this.floater.classList.remove('helper'),
-			HELPER_FADE_TIME
-		)
+		this.helperFadeTimeout = setTimeout(() => this.floater.classList.remove('helper'), HELPER_FADE_TIME)
 	}
 
 	handleBlur() {
@@ -135,10 +129,7 @@ export default class FloatingFocus {
 		this.container.classList.add('floating-focus-enabled')
 		this.floater.classList.add('enabled')
 		clearInterval(this.monitorElementPositionInterval)
-		this.monitorElementPositionInterval = setInterval(
-			this.monitorElementPosition,
-			MONITOR_INTERVAL
-		)
+		this.monitorElementPositionInterval = setInterval(this.monitorElementPosition, MONITOR_INTERVAL)
 	}
 
 	disableFloatingFocus() {
@@ -159,10 +150,7 @@ export default class FloatingFocus {
 			this.floater.removeEventListener('transitionend', removeMovingClass)
 			this.floaterIsMoving = false
 		}
-		this.floater.addEventListener(
-			'transitionend',
-			removeMovingClass.bind(this)
-		)
+		this.floater.addEventListener('transitionend', removeMovingClass.bind(this))
 	}
 
 	addPixels(pixels1, pixels2) {
@@ -191,22 +179,10 @@ export default class FloatingFocus {
 			color: targetStyle.outlineColor,
 			borderWidth: targetStyle.outlineWidth,
 			borderStyle: targetStyle.outlineStyle,
-			borderBottomLeftRadius: this.getOffsetBorderRadius(
-				targetStyle.borderBottomLeftRadius,
-				padding
-			),
-			borderBottomRightRadius: this.getOffsetBorderRadius(
-				targetStyle.borderBottomRightRadius,
-				padding
-			),
-			borderTopLeftRadius: this.getOffsetBorderRadius(
-				targetStyle.borderTopLeftRadius,
-				padding
-			),
-			borderTopRightRadius: this.getOffsetBorderRadius(
-				targetStyle.borderTopRightRadius,
-				padding
-			),
+			borderBottomLeftRadius: this.getOffsetBorderRadius(targetStyle.borderBottomLeftRadius, padding),
+			borderBottomRightRadius: this.getOffsetBorderRadius(targetStyle.borderBottomRightRadius, padding),
+			borderTopLeftRadius: this.getOffsetBorderRadius(targetStyle.borderTopLeftRadius, padding),
+			borderTopRightRadius: this.getOffsetBorderRadius(targetStyle.borderTopRightRadius, padding),
 		})
 	}
 
@@ -236,19 +212,9 @@ export default class FloatingFocus {
 		}
 
 		const { left, top, width, height } = this.target.getBoundingClientRect()
-		const {
-			left: leftPrev,
-			top: topPrev,
-			width: widthPrev,
-			height: heightPrev,
-		} = this.previousTargetRect
+		const { left: leftPrev, top: topPrev, width: widthPrev, height: heightPrev } = this.previousTargetRect
 
-		if (
-			left === leftPrev &&
-			top === topPrev &&
-			width === widthPrev &&
-			height === heightPrev
-		) {
+		if (left === leftPrev && top === topPrev && width === widthPrev && height === heightPrev) {
 			return
 		}
 

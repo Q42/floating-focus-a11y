@@ -1,22 +1,10 @@
-import {
-	afterEach,
-	beforeEach,
-	describe,
-	expect,
-	it,
-	jest,
-} from '@jest/globals'
-import FloatingFocus, {
-	HELPER_FADE_TIME,
-	MONITOR_INTERVAL,
-} from './floating-focus'
+import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals'
+import FloatingFocus, { HELPER_FADE_TIME, MONITOR_INTERVAL } from './floating-focus'
 
 describe('Floating focus', () => {
 	beforeEach(() => {
 		jest.useFakeTimers()
-		jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) =>
-			cb()
-		)
+		jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => cb())
 	})
 
 	afterEach(() => {
@@ -31,42 +19,12 @@ describe('Floating focus', () => {
 
 		const floatingFocus = new FloatingFocus()
 
-		expect(document.addEventListener).toHaveBeenNthCalledWith(
-			1,
-			'keydown',
-			floatingFocus.handleKeyDown,
-			false
-		)
-		expect(document.addEventListener).toHaveBeenNthCalledWith(
-			2,
-			'mousedown',
-			floatingFocus.handleMouseDown,
-			false
-		)
-		expect(document.addEventListener).toHaveBeenNthCalledWith(
-			3,
-			'focus',
-			floatingFocus.handleFocus,
-			true
-		)
-		expect(document.addEventListener).toHaveBeenNthCalledWith(
-			4,
-			'blur',
-			floatingFocus.handleBlur,
-			true
-		)
-		expect(document.addEventListener).toHaveBeenNthCalledWith(
-			5,
-			'scroll',
-			floatingFocus.handleScrollResize,
-			true
-		)
-		expect(window.addEventListener).toHaveBeenNthCalledWith(
-			6,
-			'resize',
-			floatingFocus.handleScrollResize,
-			true
-		)
+		expect(document.addEventListener).toHaveBeenNthCalledWith(1, 'keydown', floatingFocus.handleKeyDown, false)
+		expect(document.addEventListener).toHaveBeenNthCalledWith(2, 'mousedown', floatingFocus.handleMouseDown, false)
+		expect(document.addEventListener).toHaveBeenNthCalledWith(3, 'focus', floatingFocus.handleFocus, true)
+		expect(document.addEventListener).toHaveBeenNthCalledWith(4, 'blur', floatingFocus.handleBlur, true)
+		expect(document.addEventListener).toHaveBeenNthCalledWith(5, 'scroll', floatingFocus.handleScrollResize, true)
+		expect(window.addEventListener).toHaveBeenNthCalledWith(6, 'resize', floatingFocus.handleScrollResize, true)
 	})
 
 	it('Should not do anything if the keyboard input is not Tab or Arrow keys', () => {
@@ -95,9 +53,7 @@ describe('Floating focus', () => {
 
 	it("Should create the 'floater' element when it is not present yet", () => {
 		const floatingFocus = new FloatingFocus()
-		floatingFocus.constructFloatingElement = jest
-			.fn()
-			.mockImplementation(() => document.createElement('div'))
+		floatingFocus.constructFloatingElement = jest.fn().mockImplementation(() => document.createElement('div'))
 
 		expect(floatingFocus.constructFloatingElement).not.toHaveBeenCalled()
 
@@ -107,9 +63,7 @@ describe('Floating focus', () => {
 
 	it("Should not recreate the 'floater' element when it's already present created", () => {
 		const floatingFocus = new FloatingFocus()
-		floatingFocus.constructFloatingElement = jest
-			.fn()
-			.mockImplementation(() => document.createElement('div'))
+		floatingFocus.constructFloatingElement = jest.fn().mockImplementation(() => document.createElement('div'))
 
 		expect(floatingFocus.constructFloatingElement).not.toHaveBeenCalled()
 
@@ -158,16 +112,12 @@ describe('Floating focus', () => {
 		const floatingFocus = new FloatingFocus()
 		floatingFocus.floater = document.createElement('div')
 
-		expect(document.body.classList.contains('floating-focus-enabled')).toBe(
-			false
-		)
+		expect(document.body.classList.contains('floating-focus-enabled')).toBe(false)
 		expect(floatingFocus.floater.classList.contains('enabled')).toBe(false)
 
 		floatingFocus.enableFloatingFocus()
 
-		expect(document.body.classList.contains('floating-focus-enabled')).toBe(
-			true
-		)
+		expect(document.body.classList.contains('floating-focus-enabled')).toBe(true)
 		expect(floatingFocus.floater.classList.contains('enabled')).toBe(true)
 	})
 
@@ -177,16 +127,12 @@ describe('Floating focus', () => {
 
 		floatingFocus.enableFloatingFocus()
 
-		expect(document.body.classList.contains('floating-focus-enabled')).toBe(
-			true
-		)
+		expect(document.body.classList.contains('floating-focus-enabled')).toBe(true)
 		expect(floatingFocus.floater.classList.contains('enabled')).toBe(true)
 
 		floatingFocus.disableFloatingFocus()
 
-		expect(document.body.classList.contains('floating-focus-enabled')).toBe(
-			false
-		)
+		expect(document.body.classList.contains('floating-focus-enabled')).toBe(false)
 		expect(floatingFocus.floater.classList.contains('enabled')).toBe(false)
 	})
 
@@ -224,9 +170,7 @@ describe('Floating focus', () => {
 		expect(floatingFocus.floater.classList.contains('moving')).toBe(true)
 
 		expect(floatingFocus.target).toBe(target)
-		expect(
-			floatingFocus.target.classList.contains('floating-focused')
-		).toBe(true)
+		expect(floatingFocus.target.classList.contains('floating-focused')).toBe(true)
 
 		floatingFocus.floater.dispatchEvent(new Event('transitionend'))
 
@@ -324,27 +268,17 @@ describe('Floating focus', () => {
 			borderTopRightRadius: '0px',
 		}
 
-		window.getComputedStyle = jest
-			.fn()
-			.mockImplementation(() => targetStyle)
+		window.getComputedStyle = jest.fn().mockImplementation(() => targetStyle)
 
 		floatingFocus.resolveTargetOutlineStyle(target, floater)
 
 		expect(floater.style.color).toBe(targetStyle.outlineColor)
 		expect(floater.style.borderWidth).toBe(targetStyle.outlineWidth)
 		expect(floater.style.borderStyle).toBe(targetStyle.outlineStyle)
-		expect(floater.style.borderBottomLeftRadius).toBe(
-			targetStyle.borderBottomLeftRadius
-		)
-		expect(floater.style.borderBottomRightRadius).toBe(
-			targetStyle.borderBottomRightRadius
-		)
-		expect(floater.style.borderTopLeftRadius).toBe(
-			targetStyle.borderTopLeftRadius
-		)
-		expect(floater.style.borderTopRightRadius).toBe(
-			targetStyle.borderTopRightRadius
-		)
+		expect(floater.style.borderBottomLeftRadius).toBe(targetStyle.borderBottomLeftRadius)
+		expect(floater.style.borderBottomRightRadius).toBe(targetStyle.borderBottomRightRadius)
+		expect(floater.style.borderTopLeftRadius).toBe(targetStyle.borderTopLeftRadius)
+		expect(floater.style.borderTopRightRadius).toBe(targetStyle.borderTopRightRadius)
 	})
 
 	it("Should correctly offset the target element's border radii by its outline offset", () => {
@@ -359,9 +293,7 @@ describe('Floating focus', () => {
 			borderTopLeftRadius: null,
 		}
 
-		window.getComputedStyle = jest
-			.fn()
-			.mockImplementation(() => targetStyle)
+		window.getComputedStyle = jest.fn().mockImplementation(() => targetStyle)
 
 		floatingFocus.resolveTargetOutlineStyle(target, floater)
 
@@ -374,43 +306,32 @@ describe('Floating focus', () => {
 
 		floatingFocus.resolveTargetOutlineStyle(target, floater)
 
-		expect(floater.style.borderBottomLeftRadius).toBe(
-			targetStyle.borderBottomLeftRadius
-		)
+		expect(floater.style.borderBottomLeftRadius).toBe(targetStyle.borderBottomLeftRadius)
 	})
 
-	it.each([4, 0])(
-		"Should reposition 'floater' based on target position -- outline offset %d",
-		(outlineOffset) => {
-			const floatingFocus = new FloatingFocus()
-			const target = document.createElement('div')
-			const floater = floatingFocus.constructFloatingElement()
-			const targetStyle = window.getComputedStyle(target)
-			targetStyle.outlineOffset = outlineOffset
+	it.each([4, 0])("Should reposition 'floater' based on target position -- outline offset %d", (outlineOffset) => {
+		const floatingFocus = new FloatingFocus()
+		const target = document.createElement('div')
+		const floater = floatingFocus.constructFloatingElement()
+		const targetStyle = window.getComputedStyle(target)
+		targetStyle.outlineOffset = outlineOffset
 
-			const rect = {
-				left: 42,
-				top: 84,
-				width: 42,
-				height: 128,
-			}
-
-			target.getBoundingClientRect = jest
-				.fn()
-				.mockImplementation(() => rect)
-
-			floatingFocus.repositionElement(target, floater)
-
-			expect(floater.style.left).toBe(`${rect.left + rect.width / 2}px`)
-			expect(floater.style.top).toBe(`${rect.top + rect.height / 2}px`)
-			expect(floater.style.width).toBe(
-				`${rect.width + outlineOffset * 2}px`
-			)
-			expect(floater.style.height).toBe(
-				`${rect.height + outlineOffset * 2}px`
-			)
+		const rect = {
+			left: 42,
+			top: 84,
+			width: 42,
+			height: 128,
 		}
-	)
+
+		target.getBoundingClientRect = jest.fn().mockImplementation(() => rect)
+
+		floatingFocus.repositionElement(target, floater)
+
+		expect(floater.style.left).toBe(`${rect.left + rect.width / 2}px`)
+		expect(floater.style.top).toBe(`${rect.top + rect.height / 2}px`)
+		expect(floater.style.width).toBe(`${rect.width + outlineOffset * 2}px`)
+		expect(floater.style.height).toBe(`${rect.height + outlineOffset * 2}px`)
+	})
 
 	it("Should automatically reposition the 'floater' when the target element's position changes", async () => {
 		const floatingFocus = new FloatingFocus()
@@ -424,9 +345,7 @@ describe('Floating focus', () => {
 			height: 128,
 		}
 
-		target.getBoundingClientRect = jest
-			.fn()
-			.mockImplementation(() => ({ ...rect }))
+		target.getBoundingClientRect = jest.fn().mockImplementation(() => ({ ...rect }))
 
 		floatingFocus.handleKeyDown({ keyCode: 9 })
 		floatingFocus.enableFloatingFocus()
@@ -436,12 +355,8 @@ describe('Floating focus', () => {
 		floatingFocus.floater.classList.remove('moving')
 		floatingFocus.floaterIsMoving = false
 
-		expect(floatingFocus.floater.style.left).toBe(
-			`${rect.left + rect.width / 2}px`
-		)
-		expect(floatingFocus.floater.style.top).toBe(
-			`${rect.top + rect.height / 2}px`
-		)
+		expect(floatingFocus.floater.style.left).toBe(`${rect.left + rect.width / 2}px`)
+		expect(floatingFocus.floater.style.top).toBe(`${rect.top + rect.height / 2}px`)
 
 		jest.advanceTimersByTime(MONITOR_INTERVAL)
 		expect(floatingFocus.floater.classList.contains('moving')).toBe(false)
@@ -453,22 +368,14 @@ describe('Floating focus', () => {
 		rect.top += 42
 
 		expect(floatingFocus.floater.classList.contains('moving')).toBe(false)
-		expect(floatingFocus.floater.style.left).not.toBe(
-			`${rect.left + rect.width / 2}px`
-		)
-		expect(floatingFocus.floater.style.top).not.toBe(
-			`${rect.top + rect.height / 2}px`
-		)
+		expect(floatingFocus.floater.style.left).not.toBe(`${rect.left + rect.width / 2}px`)
+		expect(floatingFocus.floater.style.top).not.toBe(`${rect.top + rect.height / 2}px`)
 
 		jest.advanceTimersByTime(MONITOR_INTERVAL)
 
 		expect(floatingFocus.floater.classList.contains('moving')).toBe(true)
-		expect(floatingFocus.floater.style.left).toBe(
-			`${rect.left + rect.width / 2}px`
-		)
-		expect(floatingFocus.floater.style.top).toBe(
-			`${rect.top + rect.height / 2}px`
-		)
+		expect(floatingFocus.floater.style.left).toBe(`${rect.left + rect.width / 2}px`)
+		expect(floatingFocus.floater.style.top).toBe(`${rect.top + rect.height / 2}px`)
 	})
 
 	describe('addPixels', () => {
@@ -478,9 +385,7 @@ describe('Floating focus', () => {
 			const number1 = Math.random() * 10
 			const number2 = Math.random() * 10
 
-			expect(
-				floatingFocus.addPixels(`${number1}px`, `${number2}px`)
-			).toBe(`${number1 + number2}px`)
+			expect(floatingFocus.addPixels(`${number1}px`, `${number2}px`)).toBe(`${number1 + number2}px`)
 		})
 
 		it('Should return null in case of invalid input', () => {
