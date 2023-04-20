@@ -1,10 +1,9 @@
 /* global __dirname */
-'use strict';
-const path = require('path');
-const { merge } = require('webpack-merge');
-const common = require('./webpack.common.js');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const path = require('path')
+const { merge } = require('webpack-merge')
+const common = require('./webpack.common.js')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = merge(common, {
 	output: {
@@ -18,17 +17,17 @@ module.exports = merge(common, {
 					MiniCssExtractPlugin.loader,
 					'css-loader',
 					'postcss-loader',
-					'sass-loader'
-				]
+					'sass-loader',
+				],
 			},
-		]
+		],
 	},
 	plugins: [
 		new MiniCssExtractPlugin({
-			filename: 'index.css'
+			filename: 'index.css',
 		}),
 		new CopyWebpackPlugin({
-			patterns: ['index.d.ts']
-		})
-	]
-});
+			patterns: ['index.d.ts'],
+		}),
+	],
+})

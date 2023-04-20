@@ -1,8 +1,7 @@
 /* global __dirname */
-'use strict';
-const path = require('path');
-const { merge } = require('webpack-merge');
-const common = require('./webpack.common.js');
+const path = require('path')
+const { merge } = require('webpack-merge')
+const common = require('./webpack.common.js')
 
 module.exports = merge(common, {
 	output: {
@@ -16,9 +15,9 @@ module.exports = merge(common, {
 					'style-loader',
 					'css-loader',
 					'postcss-loader',
-					'sass-loader'
-				]
+					'sass-loader',
+				],
 			},
-		]
-	}
-});
+		],
+	},
+})
